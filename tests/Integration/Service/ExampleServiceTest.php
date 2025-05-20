@@ -1,9 +1,12 @@
 <?php
 
-it('can get and use service', function () {
-    self::bootKernel();
+use function Pest\Symfony\bootKernel;
+use function Pest\Symfony\getContainer;
 
-    $container = static::getContainer();
+it('can get and use service', function () {
+    bootKernel();
+
+    $container = getContainer();
 
     $service = $container->get(App\Service\ExampleService::class);
 
