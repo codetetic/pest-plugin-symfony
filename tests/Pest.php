@@ -24,9 +24,6 @@ uses(Symfony\Bundle\FrameworkBundle\Test\WebTestCase::class)->in('Application');
 |
 */
 
-expect()->extend('toBeResponseIsSuccessful', function () {
-    return $this->assertResponseIsSuccessful();
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -39,17 +36,4 @@ expect()->extend('toBeResponseIsSuccessful', function () {
 |
 */
 
-function createClient(): Symfony\Bundle\FrameworkBundle\KernelBrowser
-{
-    return test()->createClient();
-}
 
- function getRequest(): Symfony\Component\HttpFoundation\Request
-{
-    return test()->getRequest();
-}
-
-function getResponse(): Symfony\Component\HttpFoundation\Response
-{
-    return test()->getResponse();
-}

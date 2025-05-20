@@ -1,5 +1,9 @@
 <?php
 
+use function Pest\Symfony\createClient;
+use function Pest\Symfony\getRequest;
+use function Pest\Symfony\getResponse;
+
 it('can get a 200 response from /example', function () {
     createClient()->request('GET', '/example');
 

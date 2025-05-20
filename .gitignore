@@ -1,0 +1,12 @@
+/vendor/
+/phpunit.xml
+/.phpunit.cache/
+
+###> symfony/framework-bundle ###
+/resources/symfony/.env.local
+/resources/symfony/.env.local.php
+/resources/symfony/.env.*.local
+/resources/symfony/config/secrets/prod/prod.decrypt.private.php
+/resources/symfony/public/bundles/
+/resources/symfony/var/
+###< symfony/framework-bundle ###
