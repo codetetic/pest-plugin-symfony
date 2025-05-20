@@ -10,3 +10,6 @@
 /resources/symfony/public/bundles/
 /resources/symfony/var/
 ###< symfony/framework-bundle ###
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
