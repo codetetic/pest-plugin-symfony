@@ -24,8 +24,8 @@ uses(Symfony\Bundle\FrameworkBundle\Test\WebTestCase::class)->in('Application');
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
+expect()->extend('toBeResponseIsSuccessful', function () {
+    return $this->assertResponseIsSuccessful();
 });
 
 /*
@@ -39,7 +39,17 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function createClient(): Symfony\Bundle\FrameworkBundle\KernelBrowser
 {
-    // ..
+    return test()->createClient();
+}
+
+ function getRequest(): Symfony\Component\HttpFoundation\Request
+{
+    return test()->getRequest();
+}
+
+function getResponse(): Symfony\Component\HttpFoundation\Response
+{
+    return test()->getResponse();
 }
