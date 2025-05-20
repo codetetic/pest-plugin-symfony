@@ -12,6 +12,7 @@
 */
 
 uses(Symfony\Bundle\FrameworkBundle\Test\WebTestCase::class)->in('Application');
+uses(Symfony\Bundle\FrameworkBundle\Test\KernelTestCase::class)->in('Integration');
 
 /*
 |--------------------------------------------------------------------------
