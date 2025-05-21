@@ -26,3 +26,12 @@ it('can get a 200 response from /example', function () {
     expect($response->getStatusCode())->toBe(200);
     expect($response->getContent())->toMatchSnapshot();
 });
+
+it('can get a 302 response from /redirect', function () {
+    createClient()->request('GET', '/redirect');
+
+    expect($this)->toBeResponseStatusCodeSame(302);
+    expect($this)->toBeResponseRedirects('/redirected');
+    expect($this)->toBeResponseHasHeader('Location');
+    expect($this)->toBeResponseHeaderSame('Location', '/redirected');
+});
