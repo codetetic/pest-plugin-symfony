@@ -16,7 +16,9 @@
         "symfony/dom-crawler": "6.4.*",
         "symfony/framework-bundle": "6.4.*",
         "symfony/http-foundation": "6.4.*",
-        "symfony/http-kernel": "6.4.*"
+        "symfony/http-kernel": "6.4.*",
+        "symfony/mailer": "6.4.*",
+        "symfony/mime": "6.4.*"
     },
     "require-dev": {
         "ext-ctype": "*",
@@ -42,9 +44,7 @@
         "symfony/form": "6.4.*",
         "symfony/http-client": "6.4.*",
         "symfony/intl": "6.4.*",
-        "symfony/mailer": "6.4.*",
         "symfony/maker-bundle": "^1.0",
-        "symfony/mime": "6.4.*",
         "symfony/monolog-bundle": "^3.0",
         "symfony/notifier": "6.4.*",
         "symfony/phpunit-bridge": "^7.2",
