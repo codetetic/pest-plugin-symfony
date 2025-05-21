@@ -7,7 +7,8 @@ namespace Pest\Symfony\BrowserKit;
 use Pest\Expectation;
 use PHPUnit\Framework\Constraint\Constraint;
 
-function extend(Expectation $expect): void {
+function extend(Expectation $expect): void
+{
     $expect->extend('toBeResponseIsSuccessful', function (): void {
         $this->assertResponseIsSuccessful();
     });

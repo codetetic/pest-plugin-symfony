@@ -3,7 +3,7 @@
 use function Pest\Symfony\Kernel\bootKernel;
 use function Pest\Symfony\Kernel\getContainer;
 
-it('can get and use service', function () {
+it('can get and use service', function (): void {
     expect(bootKernel())->toBeInstanceOf(App\Kernel::class);
 
     /** @var App\Service\ExampleService */

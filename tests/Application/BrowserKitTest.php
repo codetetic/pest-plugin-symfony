@@ -1,9 +1,9 @@
 <?php
 
-use function Pest\Symfony\Web\createClient;
-
-use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
+use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
+
+use function Pest\Symfony\Web\createClient;
 
 it('can assert ResponseIsSuccessful', function (): void {
     createClient()->request('GET', '/example');

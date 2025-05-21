@@ -4,7 +4,7 @@ use function Pest\Symfony\Web\createClient;
 use function Pest\Symfony\Web\getRequest;
 use function Pest\Symfony\Web\getResponse;
 
-it('can get a 200 response from /example', function () {
+it('can get a 200 response from /example', function (): void {
     createClient()->request('GET', '/example');
 
     expect($this)->toBeResponseIsSuccessful();

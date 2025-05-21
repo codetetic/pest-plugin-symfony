@@ -24,7 +24,7 @@ function getCrawler(): ?Crawler
     return test()->getCrawler();
 }
 
- function getRequest(): Request
+function getRequest(): Request
 {
     return test()->getRequest();
 }
