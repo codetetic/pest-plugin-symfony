@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pest\Symfony;
+namespace Pest\Symfony\Kernel;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

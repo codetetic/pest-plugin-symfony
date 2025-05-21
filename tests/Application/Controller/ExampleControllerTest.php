@@ -35,3 +35,11 @@ it('can get a 302 response from /redirect', function () {
     expect($this)->toBeResponseHasHeader('Location');
     expect($this)->toBeResponseHeaderSame('Location', '/redirected');
 });
+
+it('can get cookie from /cookie', function () {
+    createClient()->request('GET', '/cookie');
+
+    expect($this)->toBeResponseIsSuccessful();
+    expect($this)->toBeBrowserHasCookie('name');
+    expect($this)->toBeBrowserCookieValueSame('name', 'value');
+});

@@ -25,6 +25,7 @@ uses(Symfony\Bundle\FrameworkBundle\Test\KernelTestCase::class)->in('Integration
 |
 */
 
+Pest\Symfony\BrowserKit\extend(expect());
 
 /*
 |--------------------------------------------------------------------------

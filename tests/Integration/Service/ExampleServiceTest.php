@@ -1,7 +1,7 @@
 <?php
 
-use function Pest\Symfony\bootKernel;
-use function Pest\Symfony\getContainer;
+use function Pest\Symfony\Kernel\bootKernel;
+use function Pest\Symfony\Kernel\getContainer;
 
 it('can get and use service', function () {
     expect(bootKernel())->toBeInstanceOf(App\Kernel::class);
