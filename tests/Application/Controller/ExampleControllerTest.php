@@ -1,13 +1,20 @@
 <?php
 
-use function Pest\Symfony\createClient;
-use function Pest\Symfony\getRequest;
-use function Pest\Symfony\getResponse;
+use function Pest\Symfony\Web\createClient;
+use function Pest\Symfony\Web\getClient;
+use function Pest\Symfony\Web\getCrawler;
+use function Pest\Symfony\Web\getRequest;
+use function Pest\Symfony\Web\getResponse;
 
 it('can get a 200 response from /example', function () {
     createClient()->request('GET', '/example');
 
     expect($this)->toBeResponseIsSuccessful();
+    expect($this)->toBeResponseStatusCodeSame(200);
+    expect($this)->toBeResponseFormatSame('json');
+
+    expect(getClient())->toBeInstanceOf(Symfony\Bundle\FrameworkBundle\KernelBrowser::class);
+    expect(getCrawler())->toBeInstanceOf(Symfony\Component\DomCrawler\Crawler::class);
 
     $request = getRequest();
 
