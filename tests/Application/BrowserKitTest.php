@@ -2,6 +2,9 @@
 
 use function Pest\Symfony\Web\createClient;
 
+use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
+use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
+
 it('can assert ResponseIsSuccessful', function (): void {
     createClient()->request('GET', '/example');
 
@@ -68,3 +71,26 @@ it('can assert BrowserCookieValueSame', function (): void {
     expect($this)->toBeBrowserCookieValueSame('name', 'value');
 });
 
+it('can assert RequestAttributeValueSame', function (): void {
+    createClient()->request('GET', '/example');
+
+    expect($this)->toBeRequestAttributeValueSame('_route', 'app_example');
+});
+
+it('can assert RouteSame', function (): void {
+    createClient()->request('GET', '/example');
+
+    expect($this)->toBeRouteSame('app_example');
+});
+
+it('can assert ThatForResponse', function (): void {
+    createClient()->request('GET', '/example');
+
+    expect($this)->toBeThatForResponse(new ResponseConstraint\ResponseIsSuccessful());
+});
+
+it('can assert ThatForClient', function (): void {
+    createClient()->request('GET', '/cookie');
+
+    expect($this)->toBeThatForClient(new BrowserKitConstraint\BrowserHasCookie('name'));
+});
