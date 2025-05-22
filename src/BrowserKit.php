@@ -17,13 +17,6 @@ use function Pest\Symfony\Web\getRequest;
 
 function extend(Expectation $expect): void
 {
-    function runner(WebTestCase $test, string $method, array $arguments = []): HigherOrderTapProxy|TestCall
-    {
-        call_user_func([$test, $method], ...$arguments);
-
-        return test();
-    }
-
     $expect->extend('toBeResponseIsSuccessful', function (): HigherOrderTapProxy|TestCall {
         test()->assertThat(
             $this->value,

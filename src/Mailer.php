@@ -10,6 +10,8 @@ use Pest\Support\HigherOrderTapProxy;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mailer\Event\MessageEvent;
 use Symfony\Component\Mime\RawMessage;
+use Symfony\Component\Mailer\Test\Constraint as MailerConstraint;
+use Symfony\Component\Mime\Test\Constraint as MimeConstraint;
 
 /**
  * @return MessageEvent[]
@@ -39,50 +41,83 @@ function getMailerMessage(int $index = 0, ?string $transport = null): ?RawMessag
 
 function extend(Expectation $expect): void
 {
-    function runner(KernelTestCase $test, string $method, array $arguments = []): HigherOrderTapProxy|TestCall
-    {
-        call_user_func([$test, $method], ...$arguments);
-
-        return test();
-    }
-
     $expect->extend('toBeEmailCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailCount', [$count, $transport]);
+        test()->assertThat(
+            $this->value,
+            new MailerConstraint\EmailCount($count, $transport)
+        );
+        return test();
     });
 
     $expect->extend('toBeQueuedEmailCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertQueuedEmailCount', [$count, $transport]);
+        test()->assertThat(
+            $this->value,
+            new MailerConstraint\EmailCount($count, $transport, true)
+        );
+        return test();
     });
 
-    $expect->extend('toBeEmailIsQueued', function (MessageEvent $event): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailIsQueued', [$event]);
+    $expect->extend('toBeEmailIsQueued', function (): HigherOrderTapProxy|TestCall {
+        test()->assertThat(
+            $this->value,
+            new MailerConstraint\EmailIsQueued()
+        );
+        return test();
     });
 
-    $expect->extend('toBeEmailAttachmentCount', function (RawMessage $email, int $count): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailAttachmentCount', [$email, $count]);
+    $expect->extend('toBeEmailAttachmentCount', function (int $count): HigherOrderTapProxy|TestCall {
+        test()->assertThat(
+            $this->value,
+            new MimeConstraint\EmailAttachmentCount($count),
+        );
+        return test();
     });
 
-    $expect->extend('toBeEmailTextBodyContains', function (RawMessage $email, string $text): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailTextBodyContains', [$email, $text]);
+    $expect->extend('toBeEmailTextBodyContains', function (string $text): HigherOrderTapProxy|TestCall {
+        test()->assertThat(
+            $this->value,
+            new MimeConstraint\EmailTextBodyContains($text)
+        );
+        return test();
     });
 
-    $expect->extend('toBeEmailHtmlBodyContains', function (RawMessage $email, string $text): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailHtmlBodyContains', [$email, $text]);
+    $expect->extend('toBeEmailHtmlBodyContains', function (string $text): HigherOrderTapProxy|TestCall {
+        test()->assertThat(
+            $this->value,
+            new MimeConstraint\EmailHtmlBodyContains($text)
+        );
+        return test();
     });
 
-    $expect->extend('toBeEmailHasHeader', function (RawMessage $email, string $headerName): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailHasHeader', [$email, $headerName]);
+    $expect->extend('toBeEmailHasHeader', function (string $headerName): HigherOrderTapProxy|TestCall {
+        test()->assertThat(
+            $this->value,
+            new MimeConstraint\EmailHasHeader($headerName)
+        );
+        return test();
     });
 
-    $expect->extend('toBeEmailHeaderSame', function (RawMessage $email, string $headerName, string $expectedValue): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailHeaderSame', [$email, $headerName, $expectedValue]);
+    $expect->extend('toBeEmailHeaderSame', function (string $headerName, string $expectedValue): HigherOrderTapProxy|TestCall {
+        test()->assertThat(
+            $this->value,
+            new MimeConstraint\EmailHeaderSame($headerName, $expectedValue)
+        );
+        return test();
     });
 
-    $expect->extend('toBeEmailAddressContains', function (RawMessage $email, string $headerName, string $expectedValue): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailAddressContains', [$email, $headerName, $expectedValue]);
+    $expect->extend('toBeEmailAddressContains', function (string $headerName, string $expectedValue): HigherOrderTapProxy|TestCall {
+        test()->assertThat(
+            $this->value,
+            new MimeConstraint\EmailAddressContains($headerName, $expectedValue)
+        );
+        return test();
     });
 
-    $expect->extend('toBeEmailSubjectContains', function (RawMessage $email, string $expectedValue): HigherOrderTapProxy|TestCall {
-        return runner($this->value, 'assertEmailSubjectContains', [$email, $expectedValue]);
+    $expect->extend('toBeEmailSubjectContains', function (string $expectedValue): HigherOrderTapProxy|TestCall {
+        test()->assertThat(
+            $this->value,
+            new MimeConstraint\EmailSubjectContains($expectedValue)
+        );
+        return test();
     });
 }
