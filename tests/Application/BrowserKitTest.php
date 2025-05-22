@@ -5,6 +5,15 @@ use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
 
 use function Pest\Symfony\Web\createClient;
 
+it('can chain assert', function (): void {
+    createClient()->request('GET', '/example');
+
+    expect($this)
+        ->toBeResponseIsSuccessful()
+        ->toBeResponseStatusCodeSame(200)
+        ->toBeResponseFormatSame('json');
+});
+
 it('can assert ResponseIsSuccessful', function (): void {
     createClient()->request('GET', '/example');
 

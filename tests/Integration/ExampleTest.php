@@ -22,4 +22,7 @@ it('can send email', function (): void {
     $service->sendEmail();
 
     expect(getMailerEvents())->toHaveCount(1);
+    expect($this)
+        ->toBeEmailCount(0)
+        ->toBeQueuedEmailCount(1);
 });
