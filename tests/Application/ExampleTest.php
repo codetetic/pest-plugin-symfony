@@ -7,7 +7,7 @@ use function Pest\Symfony\Web\getResponse;
 it('can get a 200 response from /example', function (): void {
     createClient()->request('GET', '/example');
 
-    expect($this)->toBeResponseIsSuccessful();
+    expect(getResponse())->toBeResponseIsSuccessful();
     expect(getRequest()->getMethod())->toBe('GET');
     expect(getResponse()->getContent())->toMatchSnapshot();
 });
