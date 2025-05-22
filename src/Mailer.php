@@ -8,6 +8,7 @@ use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
 use Symfony\Component\Mailer\Event\MessageEvent;
+use Symfony\Component\Mailer\Event\MessageEvents;
 use Symfony\Component\Mailer\Test\Constraint as MailerConstraint;
 use Symfony\Component\Mime\RawMessage;
 use Symfony\Component\Mime\Test\Constraint as MimeConstraint;
@@ -36,6 +37,11 @@ function getMailerMessages(?string $transport = null): array
 function getMailerMessage(int $index = 0, ?string $transport = null): ?RawMessage
 {
     return test()->getMailerMessages($transport)[$index] ?? null;
+}
+
+function getMessageMailerEvents(): MessageEvents
+{
+    return test()->getMessageMailerEvents();
 }
 
 function extend(Expectation $expect): void

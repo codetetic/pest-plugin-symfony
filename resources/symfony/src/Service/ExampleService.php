@@ -19,14 +19,14 @@ class ExampleService
         return 'string';
     }
 
-    public function sendEmail()
+    public function email()
     {
         $email = (new Email())
-            ->from('hello@example.com')
-            ->to('you@example.com')
-            ->subject('Time for Symfony Mailer!')
-            ->text('Sending emails is fun again!')
-            ->html('<p>See Twig integration for better HTML integration!</p>');
+            ->from('from@example.com')
+            ->to('to@example.com')
+            ->subject('subject')
+            ->text('text')
+            ->html('<p>html</p>');
 
         $this->mailer->send($email);
     }
