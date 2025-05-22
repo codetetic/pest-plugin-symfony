@@ -9,9 +9,8 @@ use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\LogicalAnd;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
+use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
 
 use function Pest\Symfony\Web\getRequest;
 
@@ -22,6 +21,7 @@ function extend(Expectation $expect): void
             $this->value,
             new ResponseConstraint\ResponseIsSuccessful()
         );
+
         return test();
     });
 
@@ -30,6 +30,7 @@ function extend(Expectation $expect): void
             $this->value,
             new ResponseConstraint\ResponseStatusCodeSame($expectedCode)
         );
+
         return test();
     });
 
@@ -38,6 +39,7 @@ function extend(Expectation $expect): void
             $this->value,
             new ResponseConstraint\ResponseFormatSame(getRequest(), $expectedFormat)
         );
+
         return test();
     });
 
@@ -60,6 +62,7 @@ function extend(Expectation $expect): void
             $this->value,
             $constraint,
         );
+
         return test();
     });
 
@@ -68,6 +71,7 @@ function extend(Expectation $expect): void
             $this->value,
             new ResponseConstraint\ResponseHasHeader($headerName),
         );
+
         return test();
     });
 
@@ -76,6 +80,7 @@ function extend(Expectation $expect): void
             $this->value,
             new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue),
         );
+
         return test();
     });
 
@@ -84,6 +89,7 @@ function extend(Expectation $expect): void
             $this->value,
             new ResponseConstraint\ResponseHasCookie($name, $path, $domain)
         );
+
         return test();
     });
 
@@ -95,6 +101,7 @@ function extend(Expectation $expect): void
                 new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain)
             ),
         );
+
         return test();
     });
 
@@ -103,6 +110,7 @@ function extend(Expectation $expect): void
             $this->value,
             new ResponseConstraint\ResponseIsUnprocessable(),
         );
+
         return test();
     });
 
@@ -111,6 +119,7 @@ function extend(Expectation $expect): void
             $this->value,
             new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain)
         );
+
         return test();
     });
 
@@ -119,9 +128,10 @@ function extend(Expectation $expect): void
             $this->value,
             LogicalAnd::fromConstraints(
                 new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
-            new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain)
+                new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain)
             ),
         );
+
         return test();
     });
 
@@ -130,6 +140,7 @@ function extend(Expectation $expect): void
             $this->value,
             new ResponseConstraint\RequestAttributeValueSame($name, $expectedValue),
         );
+
         return test();
     });
 
@@ -146,6 +157,7 @@ function extend(Expectation $expect): void
                 ...$constraints
             ),
         );
+
         return test();
     });
 
@@ -154,6 +166,7 @@ function extend(Expectation $expect): void
             $this->value,
             $constraint,
         );
+
         return test();
     });
 
@@ -162,6 +175,7 @@ function extend(Expectation $expect): void
             $this->value,
             $constraint,
         );
+
         return test();
     });
 }

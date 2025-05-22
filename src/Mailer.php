@@ -7,10 +7,9 @@ namespace Pest\Symfony\Mailer;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Mailer\Event\MessageEvent;
-use Symfony\Component\Mime\RawMessage;
 use Symfony\Component\Mailer\Test\Constraint as MailerConstraint;
+use Symfony\Component\Mime\RawMessage;
 use Symfony\Component\Mime\Test\Constraint as MimeConstraint;
 
 /**
@@ -46,6 +45,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MailerConstraint\EmailCount($count, $transport)
         );
+
         return test();
     });
 
@@ -54,6 +54,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MailerConstraint\EmailCount($count, $transport, true)
         );
+
         return test();
     });
 
@@ -62,6 +63,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MailerConstraint\EmailIsQueued()
         );
+
         return test();
     });
 
@@ -70,6 +72,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MimeConstraint\EmailAttachmentCount($count),
         );
+
         return test();
     });
 
@@ -78,6 +81,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MimeConstraint\EmailTextBodyContains($text)
         );
+
         return test();
     });
 
@@ -86,6 +90,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MimeConstraint\EmailHtmlBodyContains($text)
         );
+
         return test();
     });
 
@@ -94,6 +99,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MimeConstraint\EmailHasHeader($headerName)
         );
+
         return test();
     });
 
@@ -102,6 +108,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MimeConstraint\EmailHeaderSame($headerName, $expectedValue)
         );
+
         return test();
     });
 
@@ -110,6 +117,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MimeConstraint\EmailAddressContains($headerName, $expectedValue)
         );
+
         return test();
     });
 
@@ -118,6 +126,7 @@ function extend(Expectation $expect): void
             $this->value,
             new MimeConstraint\EmailSubjectContains($expectedValue)
         );
+
         return test();
     });
 }
