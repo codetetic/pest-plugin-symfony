@@ -9,7 +9,10 @@ use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\LogicalAnd;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
 
 use function Pest\Symfony\Web\getRequest;
@@ -17,6 +20,9 @@ use function Pest\Symfony\Web\getRequest;
 function extend(Expectation $expect): void
 {
     $expect->extend('toBeResponseIsSuccessful', function (): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             new ResponseConstraint\ResponseIsSuccessful()
@@ -26,6 +32,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeResponseStatusCodeSame', function (int $expectedCode): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             new ResponseConstraint\ResponseStatusCodeSame($expectedCode)
@@ -35,6 +44,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeResponseFormatSame', function (?string $expectedFormat): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             new ResponseConstraint\ResponseFormatSame(getRequest(), $expectedFormat)
@@ -44,6 +56,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeResponseRedirects', function (?string $expectedLocation = null, ?int $expectedCode = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         $constraint = new ResponseConstraint\ResponseIsRedirected();
         if ($expectedLocation) {
             $constraint = LogicalAnd::fromConstraints(
@@ -67,6 +82,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeResponseHasHeader', function (string $headerName): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             new ResponseConstraint\ResponseHasHeader($headerName),
@@ -76,6 +94,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeResponseHeaderSame', function (string $headerName, string $expectedValue): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue),
@@ -85,6 +106,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeResponseHasCookie', function (string $name, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             new ResponseConstraint\ResponseHasCookie($name, $path, $domain)
@@ -94,6 +118,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeResponseCookieValueSame', function (string $name, string $expectedValue, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             LogicalAnd::fromConstraints(
@@ -106,6 +133,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeResponseIsUnprocessable', function (): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             new ResponseConstraint\ResponseIsUnprocessable(),
@@ -115,6 +145,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeBrowserHasCookie', function (string $name, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(KernelBrowser::class);
+
         test()->assertThat(
             $this->value,
             new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain)
@@ -124,6 +157,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeBrowserCookieValueSame', function (string $name, string $expectedValue, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(KernelBrowser::class);
+
         test()->assertThat(
             $this->value,
             LogicalAnd::fromConstraints(
@@ -136,6 +172,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeRequestAttributeValueSame', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Request::class);
+
         test()->assertThat(
             $this->value,
             new ResponseConstraint\RequestAttributeValueSame($name, $expectedValue),
@@ -145,6 +184,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeRouteSame', function (string $expectedRoute, array $parameters = []): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Request::class);
+
         $constraints = [];
         foreach ($parameters as $key => $value) {
             $constraints[] = new ResponseConstraint\RequestAttributeValueSame($key, $value);
@@ -162,6 +204,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeThatForResponse', function (Constraint $constraint): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(Response::class);
+
         test()->assertThat(
             $this->value,
             $constraint,
@@ -171,6 +216,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toBeThatForClient', function (Constraint $constraint, string $message = ''): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toBeInstanceOf(KernelBrowser::class);
+
         test()->assertThat(
             $this->value,
             $constraint,
