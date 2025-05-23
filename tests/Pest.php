@@ -27,6 +27,7 @@ uses(Symfony\Bundle\FrameworkBundle\Test\KernelTestCase::class)->in('Integration
 
 Pest\Symfony\BrowserKit\extend(expect());
 Pest\Symfony\Mailer\extend(expect());
+Pest\Symfony\Notification\extend(expect());
 
 /*
 |--------------------------------------------------------------------------

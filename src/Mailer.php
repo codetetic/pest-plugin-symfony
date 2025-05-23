@@ -19,12 +19,12 @@ use Symfony\Component\Mime\Test\Constraint as MimeConstraint;
  */
 function getMailerEvents(?string $transport = null): array
 {
-    return test()->getMessageMailerEvents()->getEvents($transport);
+    return test()->getMailerEvents($transport);
 }
 
 function getMailerEvent(int $index = 0, ?string $transport = null): ?MessageEvent
 {
-    return test()->getMailerEvents($transport)[$index] ?? null;
+    return test()->getMailerEvent($index, $transport);
 }
 
 /**
@@ -32,12 +32,12 @@ function getMailerEvent(int $index = 0, ?string $transport = null): ?MessageEven
  */
 function getMailerMessages(?string $transport = null): array
 {
-    return test()->getMessageMailerEvents()->getMessages($transport);
+    return test()->getMailerMessages($transport);
 }
 
 function getMailerMessage(int $index = 0, ?string $transport = null): ?RawMessage
 {
-    return test()->getMailerMessages($transport)[$index] ?? null;
+    return test()->getMailerMessage($index, $transport);
 }
 
 function getMessageMailerEvents(): MessageEvents
