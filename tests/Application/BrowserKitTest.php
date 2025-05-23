@@ -12,97 +12,99 @@ it('can chain assert', function (): void {
     createClient()->request('GET', '/example');
 
     expect(getResponse())
-        ->toBeResponseIsSuccessful()
-        ->toBeResponseStatusCodeSame(200)
-        ->toBeResponseFormatSame('json');
+        ->assertResponseIsSuccessful()
+        ->assertResponseStatusCodeSame(200)
+        ->assertResponseFormatSame('json');
 });
 
 it('can assert ResponseIsSuccessful', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getResponse())->toBeResponseIsSuccessful();
+    $this->assertResponseIsSuccessful();
+    expect($this)->assertResponseIsSuccessful();
+    expect(getResponse())->assertResponseIsSuccessful();
 });
 
 it('can assert ResponseStatusCodeSame', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getResponse())->toBeResponseStatusCodeSame(200);
+    expect(getResponse())->assertResponseStatusCodeSame(200);
 });
 
 it('can assert ResponseFormatSame', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getResponse())->toBeResponseFormatSame('json');
+    expect(getResponse())->assertResponseFormatSame('json');
 });
 
 it('can assert ResponseRedirects', function (): void {
     createClient()->request('GET', '/redirect');
 
-    expect(getResponse())->toBeResponseRedirects('/redirected');
+    expect(getResponse())->assertResponseRedirects('/redirected');
 });
 
 it('can assert ResponseHasHeader', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getResponse())->toBeResponseHasHeader('Content-Type');
+    expect(getResponse())->assertResponseHasHeader('Content-Type');
 });
 
 it('can assert ResponseHeaderSame', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getResponse())->toBeResponseHeaderSame('Content-Type', 'application/json');
+    expect(getResponse())->assertResponseHeaderSame('Content-Type', 'application/json');
 });
 
 it('can assert ResponseHasCookie', function (): void {
     createClient()->request('GET', '/cookie');
 
-    expect(getResponse())->toBeResponseHasCookie('name');
+    expect(getResponse())->assertResponseHasCookie('name');
 });
 
 it('can assert ResponseCookieValueSame', function (): void {
     createClient()->request('GET', '/cookie');
 
-    expect(getResponse())->toBeResponseCookieValueSame('name', 'value');
+    expect(getResponse())->assertResponseCookieValueSame('name', 'value');
 });
 
 it('can assert ResponseIsUnprocessable', function (): void {
     createClient()->request('GET', '/unprocessable');
 
-    expect(getResponse())->toBeResponseIsUnprocessable();
+    expect(getResponse())->assertResponseIsUnprocessable();
 });
 
 it('can assert BrowserHasCookie', function (): void {
     createClient()->request('GET', '/cookie');
 
-    expect(getClient())->toBeBrowserHasCookie('name');
+    expect(getClient())->assertBrowserHasCookie('name');
 });
 
 it('can assert BrowserCookieValueSame', function (): void {
     createClient()->request('GET', '/cookie');
 
-    expect(getClient())->toBeBrowserCookieValueSame('name', 'value');
+    expect(getClient())->assertBrowserCookieValueSame('name', 'value');
 });
 
 it('can assert RequestAttributeValueSame', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getRequest())->toBeRequestAttributeValueSame('_route', 'app_example');
+    expect(getRequest())->assertRequestAttributeValueSame('_route', 'app_example');
 });
 
 it('can assert RouteSame', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getRequest())->toBeRouteSame('app_example');
+    expect(getRequest())->assertRouteSame('app_example');
 });
 
 it('can assert ThatForResponse', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getResponse())->toBeThatForResponse(new ResponseConstraint\ResponseIsSuccessful());
+    expect(getResponse())->assertThatForResponse(new ResponseConstraint\ResponseIsSuccessful());
 });
 
 it('can assert ThatForClient', function (): void {
     createClient()->request('GET', '/cookie');
 
-    expect(getClient())->toBeThatForClient(new BrowserKitConstraint\BrowserHasCookie('name'));
+    expect(getClient())->assertThatForClient(new BrowserKitConstraint\BrowserHasCookie('name'));
 });

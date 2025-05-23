@@ -48,7 +48,7 @@ use function Pest\Symfony\Web\getResponse;
 it('can get a 200 response from /example', function (): void {
     createClient()->request('GET', '/example');
 
-    expect($this)->toBeResponseIsSuccessful();
+    expect(getResponse())->assertResponseIsSuccessful();
     expect(getRequest()->getMethod())->toBe('GET');
     expect(getResponse()->getContent())->toMatchSnapshot();
 });
@@ -59,16 +59,14 @@ it('can get a 200 response from /example', function (): void {
 ```php
 <?php
 
-use function Pest\Symfony\Kernel\bootKernel;
 use function Pest\Symfony\Kernel\getContainer;
 
 it('can get and use service', function (): void {
-    expect(bootKernel())->toBeInstanceOf(App\Kernel::class);
-
-    /** @var App\Service\ExampleService */
-    $service = getContainer()->get(App\Service\ExampleService::class);
-
-    expect($service->string())->toBe('string');
+    expect(
+        getContainer()
+            ->get(App\Service\ExampleService::class)
+            ->string('string')
+    )->toBe('string');
 });
 ```
 
