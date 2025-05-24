@@ -75,7 +75,7 @@ class WebTestCase extends KernelTestCase
         return self::$client;
     }
 
-    public static function getResponse(): Response
+    public static function getClientResponse(): Response
     {
         if (!$response = self::getClient()->getResponse()) {
             static::fail('A client must have an HTTP Response to make assertions. Did you forget to make an HTTP request?');
@@ -84,7 +84,7 @@ class WebTestCase extends KernelTestCase
         return $response;
     }
 
-    public static function getRequest(): Request
+    public static function getClientRequest(): Request
     {
         if (!$request = self::getClient()->getRequest()) {
             static::fail('A client must have an HTTP Request to make assertions. Did you forget to make an HTTP request?');
@@ -93,7 +93,7 @@ class WebTestCase extends KernelTestCase
         return $request;
     }
 
-    public static function getCrawler(): Crawler
+    public static function getClientCrawler(): Crawler
     {
         if (!$crawler = self::getClient()->getCrawler()) {
             static::fail('A client must have a crawler to make assertions. Did you forget to make an HTTP request?');

@@ -22,8 +22,8 @@ function extend(Expectation $expect): void
     {
         return match (true) {
             $value instanceof WebTestCase => match ($class) {
-                Response::class => $value->getResponse(),
-                Request::class => $value->getRequest(),
+                Response::class => $value->getClientResponse(),
+                Request::class => $value->getClientRequest(),
                 KernelBrowser::class => $value->getClient(),
             },
             default => $value,

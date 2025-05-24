@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 namespace Pest\Symfony\Web;
 
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-function createClient(): KernelBrowser
+function createClient(array $options = [], array $server = []): AbstractBrowser
 {
-    return test()->createClient();
+    return test()->createClient(...func_get_args());
 }
 
-function getClient(): ?KernelBrowser
+function getClient(?AbstractBrowser $newClient = null): ?AbstractBrowser
 {
-    return test()->getClient();
+    return test()->getClient(...func_get_args());
 }
 
 function getRequest(): Request
 {
-    return test()->getRequest();
+    return test()->getClientRequest();
 }
 
 function getResponse(): Response
 {
-    return test()->getResponse();
+    return test()->getClientResponse();
 }
 
 function getCrawler(): ?Crawler
 {
-    return test()->getCrawler();
+    return test()->getClientCrawler();
 }
