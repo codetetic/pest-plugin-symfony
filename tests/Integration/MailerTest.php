@@ -5,7 +5,7 @@ use function Pest\Symfony\Kernel\Mailer\getMailerEvent;
 use function Pest\Symfony\Kernel\Mailer\getMailerEvents;
 use function Pest\Symfony\Kernel\Mailer\getMailerMessage;
 use function Pest\Symfony\Kernel\Mailer\getMailerMessages;
-use function Pest\Symfony\Kernel\Mailer\getMessageMailerEvents;
+use function Pest\Symfony\Kernel\Mailer\getMailerMessageEvents;
 
 it('can get getMailerEvents', function (): void {
     expect(getMailerEvents())
@@ -27,15 +27,15 @@ it('can get getMailerMessage', function (): void {
         ->toBeNull();
 });
 
-it('can get getMessageMailerEvents', function (): void {
-    expect(getMessageMailerEvents())
+it('can get getMailerMessageEvents', function (): void {
+    expect(getMailerMessageEvents())
         ->toBeInstanceOf(Symfony\Component\Mailer\Event\MessageEvents::class);
 });
 
 it('can chain assert', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
-    expect(getMessageMailerEvents())
+    expect(getMailerMessageEvents())
         ->assertEmailCount(0)
         ->assertQueuedEmailCount(1);
 });
@@ -43,14 +43,14 @@ it('can chain assert', function (): void {
 it('can assert EmailCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
-    expect(getMessageMailerEvents())
+    expect(getMailerMessageEvents())
         ->assertEmailCount(0);
 });
 
 it('can assert QueuedEmailCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
-    expect(getMessageMailerEvents())
+    expect(getMailerMessageEvents())
         ->assertQueuedEmailCount(1);
 });
 

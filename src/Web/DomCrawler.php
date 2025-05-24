@@ -7,6 +7,7 @@ namespace Pest\Symfony\Web\DomCrawler;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Test\Constraint as DomCrawlerConstraint;
 
@@ -15,7 +16,7 @@ function extend(Expectation $expect): void
     function unwrap(mixed $value): mixed
     {
         return match (true) {
-            $value instanceof WebTestCase => getCrawler(),
+            $value instanceof WebTestCase => $value->getCrawler(),
             default => $value,
         };
     }

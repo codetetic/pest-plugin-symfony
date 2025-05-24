@@ -40,9 +40,9 @@ function getMailerMessage(int $index = 0, ?string $transport = null): ?RawMessag
     return test()->getMailerMessage($index, $transport);
 }
 
-function getMessageMailerEvents(): MessageEvents
+function getMailerMessageEvents(): MessageEvents
 {
-    return test()->getMessageMailerEvents();
+    return test()->getMailerMessageEvents();
 }
 
 function extend(Expectation $expect): void
@@ -50,7 +50,7 @@ function extend(Expectation $expect): void
     function unwrap(mixed $value): mixed
     {
         return match (true) {
-            $value instanceof KernelTestCase => $value->getMessageMailerEvents(),
+            $value instanceof KernelTestCase => $value->getMailerMessageEvents(),
             default => $value,
         };
     }

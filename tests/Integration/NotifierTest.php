@@ -1,39 +1,39 @@
 <?php
 
 use function Pest\Symfony\Kernel\getContainer;
-use function Pest\Symfony\Kernel\Notification\getNotificationEvents;
-use function Pest\Symfony\Kernel\Notification\getNotifierEvent;
-use function Pest\Symfony\Kernel\Notification\getNotifierMessage;
+use function Pest\Symfony\Kernel\Notifier\getNotifierNotificationEvents;
+use function Pest\Symfony\Kernel\Notifier\getNotifierEvent;
+use function Pest\Symfony\Kernel\Notifier\getNotifierMessage;
 
-it('can assert NotificationCount', function (): void {
+it('can assert NotifierCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
-    expect(getNotificationEvents())
+    expect(getNotifierNotificationEvents())
         ->assertNotificationCount(0);
 });
 
-it('can assert QueuedNotificationCount', function (): void {
+it('can assert QueuedNotifierCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
-    expect(getNotificationEvents())
+    expect(getNotifierNotificationEvents())
         ->assertQueuedNotificationCount(1);
 });
 
-it('can assert NotificationIsQueued', function (): void {
+it('can assert NotifierIsQueued', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierEvent())
         ->assertNotificationIsQueued();
 });
 
-it('can assert NotificationSubjectContains', function (): void {
+it('can assert NotifierSubjectContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierMessage())
         ->assertNotificationSubjectContains('subject');
 });
 
-it('can assert NotificationTransportIsEqual', function (): void {
+it('can assert NotifierTransportIsEqual', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierMessage())

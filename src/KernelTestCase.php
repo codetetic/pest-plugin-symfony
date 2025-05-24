@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Pest\Symfony;
 
 use Pest\Symfony\Trait\MailerTrait;
-use Pest\Symfony\Trait\NotificationTrait;
 use Pest\Symfony\Trait\HttpClientTrait;
+use Pest\Symfony\Trait\NotifierTrait;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,7 +30,7 @@ use Symfony\Contracts\Service\ResetInterface;
 class KernelTestCase extends TestCase
 {
     use MailerTrait;
-    use NotificationTrait;
+    use NotifierTrait;
     use HttpClientTrait;
 
     protected static ?string $class = null;

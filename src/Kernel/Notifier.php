@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pest\Symfony\Kernel\Notification;
+namespace Pest\Symfony\Kernel\Notifier;
 
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
@@ -38,9 +38,9 @@ function getNotifierMessage(int $index = 0, ?string $transportName = null): ?Mes
     return test()->getNotifierMessage($index, $transportName);
 }
 
-function getNotificationEvents(): NotificationEvents
+function getNotifierNotificationEvents(): NotificationEvents
 {
-    return test()->getNotificationEvents();
+    return test()->getNotifierNotificationEvents();
 }
 
 function extend(Expectation $expect): void
@@ -49,7 +49,7 @@ function extend(Expectation $expect): void
     {
         return match (true) {
             $value instanceof KernelTestCase => match ($class) {
-                NotificationEvents::class.'[]' => getNotificationEvents(),
+                NotificationEvents::class.'[]' => getNotifierNotificationEvents(),
             },
             default => $value,
         };

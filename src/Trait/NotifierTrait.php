@@ -18,14 +18,14 @@ use Symfony\Component\Notifier\Message\MessageInterface;
 /**
  * @author Smaïne Milianni <smaine.milianni@gmail.com>
  */
-trait NotificationTrait
+trait NotifierTrait
 {
     /**
      * @return MessageEvent[]
      */
     public static function getNotifierEvents(?string $transportName = null): array
     {
-        return self::getNotificationEvents()->getEvents($transportName);
+        return self::getNotifierNotificationEvents()->getEvents($transportName);
     }
 
     public static function getNotifierEvent(int $index = 0, ?string $transportName = null): ?MessageEvent
@@ -38,7 +38,7 @@ trait NotificationTrait
      */
     public static function getNotifierMessages(?string $transportName = null): array
     {
-        return self::getNotificationEvents()->getMessages($transportName);
+        return self::getNotifierNotificationEvents()->getMessages($transportName);
     }
 
     public static function getNotifierMessage(int $index = 0, ?string $transportName = null): ?MessageInterface
@@ -46,7 +46,7 @@ trait NotificationTrait
         return self::getNotifierMessages($transportName)[$index] ?? null;
     }
 
-    public static function getNotificationEvents(): NotificationEvents
+    public static function getNotifierNotificationEvents(): NotificationEvents
     {
         $container = static::getContainer();
         if ($container->has('notifier.notification_logger_listener')) {

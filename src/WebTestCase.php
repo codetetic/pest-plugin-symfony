@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Pest\Symfony;
 
-use Pest\Symfony\Trait\HttpClientTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\AbstractBrowser;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -41,7 +40,7 @@ class WebTestCase extends KernelTestCase
      * @param array $options An array of options to pass to the createKernel method
      * @param array $server  An array of server parameters
      */
-    public static function createClient(array $options = [], array $server = []): KernelBrowser
+    public static function createClient(array $options = [], array $server = []): AbstractBrowser
     {
         if (static::$booted) {
             throw new \LogicException(sprintf('Booting the kernel before calling "%s()" is not supported, the kernel should only be booted once.', __METHOD__));
@@ -94,7 +93,7 @@ class WebTestCase extends KernelTestCase
         return $request;
     }
 
-    private static function getCrawler(): Crawler
+    public static function getCrawler(): Crawler
     {
         if (!$crawler = self::getClient()->getCrawler()) {
             static::fail('A client must have a crawler to make assertions. Did you forget to make an HTTP request?');

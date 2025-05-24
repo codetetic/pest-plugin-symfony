@@ -22,7 +22,7 @@ trait MailerTrait
      */
     public static function getMailerEvents(?string $transport = null): array
     {
-        return self::getMessageMailerEvents()->getEvents($transport);
+        return self::getMailerMessageEvents()->getEvents($transport);
     }
 
     public static function getMailerEvent(int $index = 0, ?string $transport = null): ?MessageEvent
@@ -35,7 +35,7 @@ trait MailerTrait
      */
     public static function getMailerMessages(?string $transport = null): array
     {
-        return self::getMessageMailerEvents()->getMessages($transport);
+        return self::getMailerMessageEvents()->getMessages($transport);
     }
 
     public static function getMailerMessage(int $index = 0, ?string $transport = null): ?RawMessage
@@ -43,7 +43,7 @@ trait MailerTrait
         return self::getMailerMessages($transport)[$index] ?? null;
     }
 
-    public static function getMessageMailerEvents(): MessageEvents
+    public static function getMailerMessageEvents(): MessageEvents
     {
         $container = static::getContainer();
         if ($container->has('mailer.message_logger_listener')) {
