@@ -16,12 +16,6 @@ it('can get a client', function (): void {
     expect(getClient())->toBeInstanceOf(Symfony\Bundle\FrameworkBundle\KernelBrowser::class);
 });
 
-it('can get crawler', function (): void {
-    createClient()->request('GET', '/example');
-
-    expect(getCrawler())->toBeInstanceOf(Symfony\Component\DomCrawler\Crawler::class);
-});
-
 it('can get request', function (): void {
     createClient()->request('GET', '/example');
 

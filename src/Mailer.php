@@ -47,18 +47,16 @@ function getMessageMailerEvents(): MessageEvents
 
 function extend(Expectation $expect): void
 {
-    function unwrap(mixed $value, string $class): mixed
+    function unwrap(mixed $value): mixed
     {
         return match (true) {
-            $value instanceof KernelTestCase => match ($class) {
-                MessageEvents::class.'[]' => getMessageMailerEvents(),
-            },
+            $value instanceof KernelTestCase => getMessageMailerEvents(),
             default => $value,
         };
     }
 
     $expect->extend('assertEmailCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, MessageEvents::class.'[]'))
+        expect(unwrap($this->value))
             ->toBeInstanceOf(MessageEvents::class)
             ->toMatchConstraint(new MailerConstraint\EmailCount($count, $transport));
 
@@ -66,7 +64,7 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('assertQueuedEmailCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, MessageEvents::class.'[]'))
+        expect(unwrap($this->value))
             ->toBeInstanceOf(MessageEvents::class)
             ->toMatchConstraint(new MailerConstraint\EmailCount($count, $transport, true));
 
