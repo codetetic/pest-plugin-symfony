@@ -7,6 +7,7 @@ namespace Pest\Symfony\Kernel\Notifier;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\KernelTestCase;
 use Symfony\Component\Notifier\Event\MessageEvent;
 use Symfony\Component\Notifier\Event\NotificationEvents;
 use Symfony\Component\Notifier\Message\MessageInterface;
@@ -45,18 +46,16 @@ function getNotifierNotificationEvents(): NotificationEvents
 
 function extend(Expectation $expect): void
 {
-    function unwrap(mixed $value, string $class): mixed
+    function unwrap(mixed $value): mixed
     {
         return match (true) {
-            $value instanceof KernelTestCase => match ($class) {
-                NotificationEvents::class.'[]' => getNotifierNotificationEvents(),
-            },
+            $value instanceof KernelTestCase => $value->getNotifierNotificationEvents(),
             default => $value,
         };
     }
 
     $expect->extend('assertNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, NotificationEvents::class.'[]'))
+        expect(unwrap($this->value))
             ->toBeInstanceOf(NotificationEvents::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport));
 
@@ -64,7 +63,7 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('assertQueuedNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, NotificationEvents::class.'[]'))
+        expect(unwrap($this->value))
             ->toBeInstanceOf(NotificationEvents::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport, true));
 
