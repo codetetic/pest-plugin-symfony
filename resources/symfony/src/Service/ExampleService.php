@@ -10,6 +10,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 #[Autoconfigure(public: true)]
 class ExampleService
@@ -17,6 +18,7 @@ class ExampleService
     public function __construct(
         private readonly MailerInterface $mailer,
         private readonly TexterInterface $texter,
+        private readonly HttpClientInterface $client,
     ) {
     }
 
@@ -45,6 +47,14 @@ class ExampleService
                 'subject',
                 '+1422222222',
             ),
+        );
+    }
+
+    public function http(): void
+    {
+        $this->client->request(
+            'GET',
+            'https://www.google.com'
         );
     }
 }

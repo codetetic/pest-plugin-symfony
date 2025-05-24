@@ -32,13 +32,22 @@ final class HttpClientTraceValueSame extends Constraint
             return false;
         }
 
+        if (count($collector->getClients()) === 0) {
+            $collector->lateCollect();
+        }
+
         $traces = $collector->getClients();
         if (!isset($traces[$this->httpClientId])) {
             return false;
         }
 
-        foreach ($traces as $trace) {
-            $actualUrl = $trace['info']['url'] ?? $trace['url'] ?? null;
+        $clients = $collector->getClients();
+        if (!isset($clients[$this->httpClientId])) {
+            return false;
+        }
+
+        foreach ($clients[$this->httpClientId]['traces'] as $trace) {
+            $actualUrl = $trace['url'] ?? null;
             if ($this->expectedUrl !== $actualUrl) {
                 continue;
             }

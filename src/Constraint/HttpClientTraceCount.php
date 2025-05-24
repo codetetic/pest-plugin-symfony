@@ -17,7 +17,7 @@ final class HttpClientTraceCount extends Constraint
 
     public function toString(): string
     {
-        return sprintf('has request been called "%i" times', $this->count);
+        return sprintf('the request "%s" has been called "%d" times', $this->httpClientId, $this->count);
     }
 
     /**
@@ -29,12 +29,16 @@ final class HttpClientTraceCount extends Constraint
             return false;
         }
 
+        if (count($collector->getClients()) === 0) {
+            $collector->lateCollect();
+        }
+
         $traces = $collector->getClients();
         if (!isset($traces[$this->httpClientId])) {
             return false;
         }
 
-        return count($traces[$this->httpClientId]) === $this->count;
+        return count($traces[$this->httpClientId]['traces']) === $this->count;
     }
 
     /**
@@ -42,6 +46,6 @@ final class HttpClientTraceCount extends Constraint
      */
     protected function failureDescription($traces): string
     {
-        return sprintf('The expected request has not been called "%i" times', $this->count);
+        return sprintf('The expected request "%s" has not been called "%d" times', $this->httpClientId, $this->count);
     }
 }
