@@ -9,6 +9,8 @@ use Symfony\Component\HttpClient\DataCollector\HttpClientDataCollector;
 
 final class HttpClientTraceCount extends Constraint
 {
+    use HttpClientTraceTrait;
+
     public function __construct(
         private int $count,
         private string $httpClientId = 'http_client',
@@ -29,16 +31,12 @@ final class HttpClientTraceCount extends Constraint
             return false;
         }
 
-        if (0 === count($collector->getClients())) {
-            $collector->lateCollect();
-        }
-
-        $traces = $collector->getClients();
-        if (!isset($traces[$this->httpClientId])) {
+        $traces = $this->getTraces($collector);
+        if (null === $traces) {
             return false;
         }
 
-        return count($traces[$this->httpClientId]['traces']) === $this->count;
+        return count($traces) === $this->count;
     }
 
     /**

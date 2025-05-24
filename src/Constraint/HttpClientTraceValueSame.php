@@ -9,6 +9,8 @@ use Symfony\Component\HttpClient\DataCollector\HttpClientDataCollector;
 
 final class HttpClientTraceValueSame extends Constraint
 {
+    use HttpClientTraceTrait;
+
     public function __construct(
         private string $expectedUrl,
         private string $expectedMethod = 'GET',
@@ -32,21 +34,12 @@ final class HttpClientTraceValueSame extends Constraint
             return false;
         }
 
-        if (0 === count($collector->getClients())) {
-            $collector->lateCollect();
-        }
-
-        $traces = $collector->getClients();
-        if (!isset($traces[$this->httpClientId])) {
+        $traces = $this->getTraces($collector);
+        if (null === $traces) {
             return false;
         }
 
-        $clients = $collector->getClients();
-        if (!isset($clients[$this->httpClientId])) {
-            return false;
-        }
-
-        foreach ($clients[$this->httpClientId]['traces'] as $trace) {
+        foreach ($traces as $trace) {
             $actualUrl = $trace['url'] ?? null;
             if ($this->expectedUrl !== $actualUrl) {
                 continue;
