@@ -12,11 +12,13 @@ it('can get crawler', function (): void {
 it('can assert SelectorExists', function (): void {
     createClient()->request('GET', '/html');
 
+    expect($this)->assertSelectorExists('title');
     expect(getCrawler())->assertSelectorExists('title');
 });
 
 it('can assert SelectorTextContains', function (): void {
     createClient()->request('GET', '/html');
 
+    expect($this)->assertSelectorTextContains('title', 'Welcome!');
     expect(getCrawler())->assertSelectorTextContains('title', 'Welcome!');
 });

@@ -16,7 +16,7 @@ function extend(Expectation $expect): void
     function unwrap(mixed $value): mixed
     {
         return match (true) {
-            $value instanceof WebTestCase => $value->getCrawler(),
+            $value instanceof WebTestCase => $value->getClientCrawler(),
             default => $value,
         };
     }
