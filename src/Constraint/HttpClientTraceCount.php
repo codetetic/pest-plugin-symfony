@@ -29,7 +29,7 @@ final class HttpClientTraceCount extends Constraint
             return false;
         }
 
-        if (count($collector->getClients()) === 0) {
+        if (0 === count($collector->getClients())) {
             $collector->lateCollect();
         }
 
@@ -44,7 +44,7 @@ final class HttpClientTraceCount extends Constraint
     /**
      * @param HttpClientDataCollector $collector
      */
-    protected function failureDescription($traces): string
+    protected function failureDescription($collector): string
     {
         return sprintf('The expected request "%s" has not been called "%d" times', $this->httpClientId, $this->count);
     }

@@ -32,7 +32,7 @@ final class HttpClientTraceValueSame extends Constraint
             return false;
         }
 
-        if (count($collector->getClients()) === 0) {
+        if (0 === count($collector->getClients())) {
             $collector->lateCollect();
         }
 
@@ -57,7 +57,7 @@ final class HttpClientTraceValueSame extends Constraint
                 continue;
             }
 
-            if ($this->expectedBody !== null) {
+            if (null !== $this->expectedBody) {
                 $actualBody = $trace['options']['body'] ?? $trace['options']['json'] ?? null;
                 $actualBody = \is_string($actualBody) ? $actualBody : $actualBody?->getValue(true);
 
@@ -85,7 +85,7 @@ final class HttpClientTraceValueSame extends Constraint
     /**
      * @param HttpClientDataCollector $collector
      */
-    protected function failureDescription($traces): string
+    protected function failureDescription($collector): string
     {
         return sprintf('The expected request has not been called: "%s" - "%s"', $this->expectedMethod, $this->expectedUrl);
     }

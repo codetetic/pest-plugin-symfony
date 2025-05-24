@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Pest\Symfony;
 
-use Pest\Symfony\Trait\MailerTrait;
 use Pest\Symfony\Trait\HttpClientTrait;
+use Pest\Symfony\Trait\MailerTrait;
 use Pest\Symfony\Trait\NotifierTrait;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;

@@ -1,9 +1,9 @@
 <?php
 
 use function Pest\Symfony\Kernel\getContainer;
-use function Pest\Symfony\Kernel\Notifier\getNotifierNotificationEvents;
 use function Pest\Symfony\Kernel\Notifier\getNotifierEvent;
 use function Pest\Symfony\Kernel\Notifier\getNotifierMessage;
+use function Pest\Symfony\Kernel\Notifier\getNotifierNotificationEvents;
 
 it('can assert NotifierCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();

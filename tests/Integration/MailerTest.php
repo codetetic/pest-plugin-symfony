@@ -4,8 +4,8 @@ use function Pest\Symfony\Kernel\getContainer;
 use function Pest\Symfony\Kernel\Mailer\getMailerEvent;
 use function Pest\Symfony\Kernel\Mailer\getMailerEvents;
 use function Pest\Symfony\Kernel\Mailer\getMailerMessage;
-use function Pest\Symfony\Kernel\Mailer\getMailerMessages;
 use function Pest\Symfony\Kernel\Mailer\getMailerMessageEvents;
+use function Pest\Symfony\Kernel\Mailer\getMailerMessages;
 
 it('can get getMailerEvents', function (): void {
     expect(getMailerEvents())
