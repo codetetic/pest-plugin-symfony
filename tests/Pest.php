@@ -29,6 +29,7 @@ Pest\Symfony\Web\BrowserKit\extend(expect());
 Pest\Symfony\Web\DomCrawler\extend(expect());
 Pest\Symfony\Kernel\Mailer\extend(expect());
 Pest\Symfony\Kernel\Notification\extend(expect());
+Pest\Symfony\Kernel\HttpClient\extend(expect());
 
 /*
 |--------------------------------------------------------------------------

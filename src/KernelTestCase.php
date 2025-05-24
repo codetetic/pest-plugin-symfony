@@ -8,11 +8,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Pest\Symfony;
 
 use Pest\Symfony\Trait\MailerTrait;
 use Pest\Symfony\Trait\NotificationTrait;
+use Pest\Symfony\Trait\HttpClientTrait;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -29,6 +31,7 @@ class KernelTestCase extends TestCase
 {
     use MailerTrait;
     use NotificationTrait;
+    use HttpClientTrait;
 
     protected static ?string $class = null;
 
@@ -115,7 +118,7 @@ class KernelTestCase extends TestCase
         $env = $options['environment'] ?? $_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] ?? 'test';
         $debug = $options['debug'] ?? $_ENV['APP_DEBUG'] ?? $_SERVER['APP_DEBUG'] ?? true;
 
-        return new static::$class($env, $debug);
+        return new static::$class($env, (bool) $debug);
     }
 
     /**
