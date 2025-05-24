@@ -1,10 +1,10 @@
 <?php
 
 // @codeCoverageIgnoreStart
-require_once 'Kernel.php';
-require_once 'Web.php';
-require_once 'BrowserKit.php';
-require_once 'Mailer.php';
-require_once 'Notification.php';
-require_once 'DomCrawler.php';
+require_once 'Kernel/Autoload.php';
+require_once 'Kernel/Mailer.php';
+require_once 'Kernel/Notification.php';
+require_once 'Web/Autoload.php';
+require_once 'Web/BrowserKit.php';
+require_once 'Web/DomCrawler.php';
 // @codeCoverageIgnoreEnd

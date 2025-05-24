@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pest\Symfony\Mailer;
+namespace Pest\Symfony\Kernel\Mailer;
 
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Pest\Symfony\KernelTestCase;
 use Symfony\Component\Mailer\Event\MessageEvent;
 use Symfony\Component\Mailer\Event\MessageEvents;
 use Symfony\Component\Mailer\Test\Constraint as MailerConstraint;
@@ -50,7 +50,7 @@ function extend(Expectation $expect): void
     function unwrap(mixed $value): mixed
     {
         return match (true) {
-            $value instanceof KernelTestCase => getMessageMailerEvents(),
+            $value instanceof KernelTestCase => $value->getMessageMailerEvents(),
             default => $value,
         };
     }

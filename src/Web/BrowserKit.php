@@ -2,23 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Pest\Symfony\BrowserKit;
+namespace Pest\Symfony\Web\BrowserKit;
 
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\WebTestCase;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\LogicalAnd;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
-
-use function Pest\Symfony\Web\getClient;
-use function Pest\Symfony\Web\getRequest;
-use function Pest\Symfony\Web\getResponse;
 
 function extend(Expectation $expect): void
 {
@@ -26,9 +22,9 @@ function extend(Expectation $expect): void
     {
         return match (true) {
             $value instanceof WebTestCase => match ($class) {
-                Response::class => getResponse(),
-                Request::class => getRequest(),
-                KernelBrowser::class => getClient(),
+                Response::class => $value->getResponse(),
+                Request::class => $value->getRequest(),
+                KernelBrowser::class => $value->getClient(),
             },
             default => $value,
         };
@@ -50,20 +46,20 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('assertResponseFormatSame', function (?string $expectedFormat): HigherOrderTapProxy|TestCall {
+    $expect->extend('assertResponseFormatSame', function (Request $request, ?string $expectedFormat): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
             ->toBeInstanceOf(Response::class)
-            ->toMatchConstraint(new ResponseConstraint\ResponseFormatSame(getRequest(), $expectedFormat));
+            ->toMatchConstraint(new ResponseConstraint\ResponseFormatSame($request, $expectedFormat));
 
         return test();
     });
 
-    $expect->extend('assertResponseRedirects', function (?string $expectedLocation = null, ?int $expectedCode = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('assertResponseRedirects', function (Request $request, ?string $expectedLocation = null, ?int $expectedCode = null): HigherOrderTapProxy|TestCall {
         $constraints = [
             new ResponseConstraint\ResponseIsRedirected(),
         ];
         if ($expectedLocation) {
-            $constraints[] = new ResponseConstraint\ResponseHeaderLocationSame(getRequest(), $expectedLocation);
+            $constraints[] = new ResponseConstraint\ResponseHeaderLocationSame($request, $expectedLocation);
         }
         if ($expectedCode) {
             $constraints[] = new ResponseConstraint\ResponseStatusCodeSame($expectedCode);

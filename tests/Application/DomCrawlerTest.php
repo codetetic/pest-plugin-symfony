@@ -1,6 +1,6 @@
 <?php
 
-use function Pest\Symfony\DomCrawler\getCrawler;
+use function Pest\Symfony\Web\getCrawler;
 use function Pest\Symfony\Web\createClient;
 
 it('can get crawler', function (): void {

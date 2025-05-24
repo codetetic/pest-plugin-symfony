@@ -13,14 +13,12 @@ it('can chain assert', function (): void {
 
     expect(getResponse())
         ->assertResponseIsSuccessful()
-        ->assertResponseStatusCodeSame(200)
-        ->assertResponseFormatSame('json');
+        ->assertResponseStatusCodeSame(200);
 });
 
 it('can assert ResponseIsSuccessful', function (): void {
     createClient()->request('GET', '/example');
 
-    $this->assertResponseIsSuccessful();
     expect($this)->assertResponseIsSuccessful();
     expect(getResponse())->assertResponseIsSuccessful();
 });
@@ -34,13 +32,13 @@ it('can assert ResponseStatusCodeSame', function (): void {
 it('can assert ResponseFormatSame', function (): void {
     createClient()->request('GET', '/example');
 
-    expect(getResponse())->assertResponseFormatSame('json');
+    expect(getResponse())->assertResponseFormatSame(getRequest(), 'json');
 });
 
 it('can assert ResponseRedirects', function (): void {
     createClient()->request('GET', '/redirect');
 
-    expect(getResponse())->assertResponseRedirects('/redirected');
+    expect(getResponse())->assertResponseRedirects(getRequest(), '/redirected');
 });
 
 it('can assert ResponseHasHeader', function (): void {

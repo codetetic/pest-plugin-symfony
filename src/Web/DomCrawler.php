@@ -2,18 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Pest\Symfony\DomCrawler;
+namespace Pest\Symfony\Web\DomCrawler;
 
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Test\Constraint as DomCrawlerConstraint;
-
-function getCrawler(): ?Crawler
-{
-    return test()->getCrawler();
-}
 
 function extend(Expectation $expect): void
 {

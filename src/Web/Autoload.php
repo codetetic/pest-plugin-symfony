@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pest\Symfony\Web;
 
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,4 +27,9 @@ function getRequest(): Request
 function getResponse(): Response
 {
     return test()->getResponse();
+}
+
+function getCrawler(): ?Crawler
+{
+    return test()->getCrawler();
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pest\Symfony\Notification;
+namespace Pest\Symfony\Kernel\Notification;
 
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;

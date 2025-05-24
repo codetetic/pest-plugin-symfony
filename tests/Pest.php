@@ -11,8 +11,8 @@
 |
 */
 
-uses(Symfony\Bundle\FrameworkBundle\Test\WebTestCase::class)->in('Application');
-uses(Symfony\Bundle\FrameworkBundle\Test\KernelTestCase::class)->in('Integration');
+uses(Pest\Symfony\WebTestCase::class)->in('Application');
+uses(Pest\Symfony\KernelTestCase::class)->in('Integration');
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +25,10 @@ uses(Symfony\Bundle\FrameworkBundle\Test\KernelTestCase::class)->in('Integration
 |
 */
 
-Pest\Symfony\BrowserKit\extend(expect());
-Pest\Symfony\DomCrawler\extend(expect());
-Pest\Symfony\Mailer\extend(expect());
-Pest\Symfony\Notification\extend(expect());
+Pest\Symfony\Web\BrowserKit\extend(expect());
+Pest\Symfony\Web\DomCrawler\extend(expect());
+Pest\Symfony\Kernel\Mailer\extend(expect());
+Pest\Symfony\Kernel\Notification\extend(expect());
 
 /*
 |--------------------------------------------------------------------------
