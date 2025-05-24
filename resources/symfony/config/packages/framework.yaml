@@ -18,10 +18,6 @@ framework:
         log: true
 
     http_client:
-        scoped_clients:
-            # only requests matching scope will use these options
-            github.client:
-                scope: 'https://api\.github\.com'
 
 when@test:
     framework:
