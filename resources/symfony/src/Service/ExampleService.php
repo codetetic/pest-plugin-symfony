@@ -2,15 +2,21 @@
 
 namespace App\Service;
 
+use App\Message\ExampleMessage;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Notifier\Message\SmsMessage;
+use Symfony\Component\Notifier\TexterInterface;
 
 #[Autoconfigure(public: true)]
 class ExampleService
 {
     public function __construct(
         private readonly MailerInterface $mailer,
+        private readonly TexterInterface $texter,
     ) {
     }
 
@@ -19,7 +25,7 @@ class ExampleService
         return 'string';
     }
 
-    public function email()
+    public function email(): void
     {
         $email = (new Email())
             ->from('from@example.com')
@@ -29,5 +35,16 @@ class ExampleService
             ->html('<p>html</p>');
 
         $this->mailer->send($email);
+    }
+
+    public function sms(): void
+    {
+        $this->texter->send(
+            new SmsMessage(
+              '+1411111111',
+                'subject',
+                '+1422222222',
+            ),
+        );
     }
 }

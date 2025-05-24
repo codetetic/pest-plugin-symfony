@@ -7,7 +7,7 @@ namespace Pest\Symfony\Notification;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
-use Symfony\Component\Mailer\Event\MessageEvent;
+use Symfony\Component\Notifier\Event\MessageEvent;
 use Symfony\Component\Notifier\Event\NotificationEvents;
 use Symfony\Component\Notifier\Message\MessageInterface;
 use Symfony\Component\Notifier\Test\Constraint as NotifierConstraint;
@@ -22,7 +22,7 @@ function getNotifierEvents(?string $transportName = null): array
 
 function getNotifierEvent(int $index = 0, ?string $transportName = null): ?MessageEvent
 {
-    return test()->getNotifierEvent($index,$transportName);
+    return test()->getNotifierEvent($index, $transportName);
 }
 
 /**
@@ -35,14 +35,13 @@ function getNotifierMessages(?string $transportName = null): array
 
 function getNotifierMessage(int $index = 0, ?string $transportName = null): ?MessageInterface
 {
-    return test()->getNotifierMessage($index,$transportName);
+    return test()->getNotifierMessage($index, $transportName);
 }
 
 function getNotificationEvents(): NotificationEvents
 {
     return test()->getNotificationEvents();
 }
-
 
 function extend(Expectation $expect): void
 {
@@ -56,7 +55,7 @@ function extend(Expectation $expect): void
         };
     }
 
-    $expect->extend('assertNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall{
+    $expect->extend('assertNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, NotificationEvents::class.'[]'))
             ->toBeInstanceOf(NotificationEvents::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport));
@@ -88,7 +87,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('assertNotificationTransportIsEqual', function (?string $transportName = null,): HigherOrderTapProxy|TestCall {
+    $expect->extend('assertNotificationTransportIsEqual', function (?string $transportName = null): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toBeInstanceOf(MessageInterface::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationTransportIsEqual($transportName));
