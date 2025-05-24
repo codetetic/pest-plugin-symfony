@@ -13,7 +13,6 @@ namespace Pest\Symfony;
 
 use Pest\Symfony\Trait\MailerTrait;
 use Pest\Symfony\Trait\NotificationTrait;
-use PHPUnit\Event\Code\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;

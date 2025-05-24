@@ -48,7 +48,7 @@ class WebTestCase extends KernelTestCase
         $kernel = static::bootKernel($options);
 
         try {
-            $client = $kernel->getContainer()->get('test.client');
+            self::$client = $kernel->getContainer()->get('test.client');
         } catch (ServiceNotFoundException) {
             if (class_exists(KernelBrowser::class)) {
                 throw new \LogicException('You cannot create the client used in functional tests if the "framework.test" config is not set to true.');
@@ -56,9 +56,9 @@ class WebTestCase extends KernelTestCase
             throw new \LogicException('You cannot create the client used in functional tests if the BrowserKit component is not available. Try running "composer require symfony/browser-kit".');
         }
 
-        $client->setServerParameters($server);
+        self::$client->setServerParameters($server);
 
-        return self::getClient($client);
+        return self::$client;
     }
 
     public static function getClient(?AbstractBrowser $newClient = null): ?AbstractBrowser
