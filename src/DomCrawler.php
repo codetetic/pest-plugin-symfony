@@ -32,4 +32,12 @@ function extend(Expectation $expect): void
 
         return test();
     });
+
+    $expect->extend('assertSelectorTextContains', function (string $selector, string $text): HigherOrderTapProxy|TestCall {
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextContains($selector, $text));
+
+        return test();
+    });
 }

@@ -1,6 +1,7 @@
 /vendor/
 /phpunit.xml
 /.phpunit.cache/
+/--cache-result/
 
 ###> symfony/framework-bundle ###
 /resources/symfony/.env.local
@@ -10,6 +11,7 @@
 /resources/symfony/public/bundles/
 /resources/symfony/var/
 ###< symfony/framework-bundle ###
+
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###

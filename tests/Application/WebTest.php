@@ -2,7 +2,6 @@
 
 use function Pest\Symfony\Web\createClient;
 use function Pest\Symfony\Web\getClient;
-use function Pest\Symfony\Web\getCrawler;
 use function Pest\Symfony\Web\getRequest;
 use function Pest\Symfony\Web\getResponse;
 

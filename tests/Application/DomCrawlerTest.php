@@ -14,3 +14,9 @@ it('can assert SelectorExists', function (): void {
 
     expect(getCrawler())->assertSelectorExists('title');
 });
+
+it('can assert SelectorTextContains', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect(getCrawler())->assertSelectorTextContains('title', 'Welcome!');
+});
