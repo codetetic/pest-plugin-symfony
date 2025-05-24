@@ -43,6 +43,8 @@ it('can chain assert', function (): void {
 it('can assert EmailCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
+    expect($this)
+        ->assertEmailCount(0);
     expect(getMailerMessageEvents())
         ->assertEmailCount(0);
 });
@@ -50,6 +52,8 @@ it('can assert EmailCount', function (): void {
 it('can assert QueuedEmailCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
+    expect($this)
+        ->assertQueuedEmailCount(1);
     expect(getMailerMessageEvents())
         ->assertQueuedEmailCount(1);
 });

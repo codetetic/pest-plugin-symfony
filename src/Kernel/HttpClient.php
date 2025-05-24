@@ -9,6 +9,7 @@ use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
 use Pest\Symfony\Constraint\HttpClientTraceCount;
 use Pest\Symfony\Constraint\HttpClientTraceValueSame;
+use Pest\Symfony\KernelTestCase;
 use Symfony\Component\HttpClient\DataCollector\HttpClientDataCollector;
 
 function getHttpClientDataCollector(): HttpClientDataCollector
