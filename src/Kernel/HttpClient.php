@@ -27,9 +27,9 @@ function extend(Expectation $expect): void
         };
     }
 
-    $expect->extend('assertHttpClientRequest', function (string $expectedUrl, string $expectedMethod = 'GET', string|array|null $expectedBody = null, array $expectedHeaders = [], string $httpClientId = 'http_client'): HigherOrderTapProxy|TestCall {
+    $expect->extend('assertHttpClientRequest', function (string $expectedUrl, string $expectedMethod = 'GET', string $httpClientId = 'http_client'): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toMatchConstraint(new HttpClientTraceValueSame($expectedUrl, $expectedMethod, $expectedBody, $expectedHeaders, $httpClientId));
+            ->toMatchConstraint(new HttpClientTraceValueSame($expectedUrl, $expectedMethod, $httpClientId));
 
         return test();
     });

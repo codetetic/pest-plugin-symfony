@@ -14,8 +14,6 @@ final class HttpClientTraceValueSame extends Constraint
     public function __construct(
         private string $expectedUrl,
         private string $expectedMethod = 'GET',
-        private string|array|null $expectedBody = null,
-        private array $expectedHeaders = [],
         private string $httpClientId = 'http_client',
     ) {
     }
@@ -48,25 +46,6 @@ final class HttpClientTraceValueSame extends Constraint
             $actualMethod = $trace['method'] ?? null;
             if ($this->expectedMethod !== $actualMethod) {
                 continue;
-            }
-
-            if (null !== $this->expectedBody) {
-                $actualBody = $trace['options']['body'] ?? $trace['options']['json'] ?? null;
-                $actualBody = \is_string($actualBody) ? $actualBody : $actualBody?->getValue(true);
-
-                if ($this->expectedBody !== $actualBody) {
-                    continue;
-                }
-            }
-
-            if (count($this->expectedHeaders) > 0) {
-                $actualHeaders = $trace['options']['headers'] ?? [];
-
-                foreach ($this->expectedHeaders as $headerKey => $expectedHeader) {
-                    if (!isset($actualHeaders[$headerKey]) || $expectedHeader !== $actualHeaders[$headerKey]->getValue(true)) {
-                        continue 2;
-                    }
-                }
             }
 
             return true;
