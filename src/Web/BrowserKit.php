@@ -7,9 +7,9 @@ namespace Pest\Symfony\Web\BrowserKit;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\Constraint\Factory\BrowsertKit;
 use Pest\Symfony\WebTestCase;
 use PHPUnit\Framework\Constraint\Constraint;
-use PHPUnit\Framework\Constraint\LogicalAnd;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,19 +55,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('assertResponseRedirects', function (Request $request, ?string $expectedLocation = null, ?int $expectedCode = null): HigherOrderTapProxy|TestCall {
-        $constraints = [
-            new ResponseConstraint\ResponseIsRedirected(),
-        ];
-        if ($expectedLocation) {
-            $constraints[] = new ResponseConstraint\ResponseHeaderLocationSame($request, $expectedLocation);
-        }
-        if ($expectedCode) {
-            $constraints[] = new ResponseConstraint\ResponseStatusCodeSame($expectedCode);
-        }
-
         expect(unwrap($this->value, Response::class))
             ->toBeInstanceOf(Response::class)
-            ->toMatchConstraint(LogicalAnd::fromConstraints(...$constraints));
+            ->toMatchConstraint(BrowsertKit::createResponseRedirects($request, $expectedLocation, $expectedCode));
 
         return test();
     });
@@ -97,14 +87,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('assertResponseCookieValueSame', function (string $name, string $expectedValue, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        $constraints = [
-            new ResponseConstraint\ResponseHasCookie($name, $path, $domain),
-            new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain),
-        ];
-
         expect(unwrap($this->value, Response::class))
             ->toBeInstanceOf(Response::class)
-            ->toMatchConstraint(LogicalAnd::fromConstraints(...$constraints));
+            ->toMatchConstraint(BrowsertKit::createResponseCookieValueSame($name, $expectedValue, $path, $domain));
 
         return test();
     });
@@ -126,14 +111,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('assertBrowserCookieValueSame', function (string $name, string $expectedValue, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        $constraints = [
-            new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
-            new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain),
-        ];
-
         expect(unwrap($this->value, KernelBrowser::class))
             ->toBeInstanceOf(KernelBrowser::class)
-            ->toMatchConstraint(LogicalAnd::fromConstraints(...$constraints));
+            ->toMatchConstraint(BrowsertKit::createBrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain));
 
         return test();
     });
@@ -147,16 +127,9 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('assertRouteSame', function (string $expectedRoute, array $parameters = []): HigherOrderTapProxy|TestCall {
-        $constraints = [
-            new ResponseConstraint\RequestAttributeValueSame('_route', $expectedRoute),
-        ];
-        foreach ($parameters as $key => $value) {
-            $constraints[] = new ResponseConstraint\RequestAttributeValueSame($key, $value);
-        }
-
         expect(unwrap($this->value, Request::class))
             ->toBeInstanceOf(Request::class)
-            ->toMatchConstraint(LogicalAnd::fromConstraints(...$constraints));
+            ->toMatchConstraint(BrowsertKit::createRouteSame($expectedRoute, $parameters));
 
         return test();
     });
