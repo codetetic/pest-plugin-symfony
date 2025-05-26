@@ -32,7 +32,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseIsSuccessful', function (): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(new ResponseConstraint\ResponseIsSuccessful());
 
         return test();
@@ -40,7 +39,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseStatusCodeSame', function (int $expectedCode): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(new ResponseConstraint\ResponseStatusCodeSame($expectedCode));
 
         return test();
@@ -48,7 +46,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseFormatSame', function (Request $request, ?string $expectedFormat): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(new ResponseConstraint\ResponseFormatSame($request, $expectedFormat));
 
         return test();
@@ -56,7 +53,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseRedirects', function (Request $request, ?string $expectedLocation = null, ?int $expectedCode = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(BrowsertKit::createResponseRedirects($request, $expectedLocation, $expectedCode));
 
         return test();
@@ -64,7 +60,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseHasHeader', function (string $headerName): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(new ResponseConstraint\ResponseHasHeader($headerName));
 
         return test();
@@ -72,7 +67,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseHeaderSame', function (string $headerName, string $expectedValue): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue));
 
         return test();
@@ -80,7 +74,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseHasCookie', function (string $name, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(new ResponseConstraint\ResponseHasCookie($name, $path, $domain));
 
         return test();
@@ -88,7 +81,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseCookieValueSame', function (string $name, string $expectedValue, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(BrowsertKit::createResponseCookieValueSame($name, $expectedValue, $path, $domain));
 
         return test();
@@ -96,7 +88,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseIsUnprocessable', function (): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint(new ResponseConstraint\ResponseIsUnprocessable());
 
         return test();
@@ -104,7 +95,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertBrowserHasCookie', function (string $name, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, KernelBrowser::class))
-            ->toBeInstanceOf(KernelBrowser::class)
             ->toMatchConstraint(new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain));
 
         return test();
@@ -112,7 +102,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertBrowserCookieValueSame', function (string $name, string $expectedValue, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, KernelBrowser::class))
-            ->toBeInstanceOf(KernelBrowser::class)
             ->toMatchConstraint(BrowsertKit::createBrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain));
 
         return test();
@@ -120,7 +109,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertRequestAttributeValueSame', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Request::class))
-            ->toBeInstanceOf(Request::class)
             ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame($name, $expectedValue));
 
         return test();
@@ -128,7 +116,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertRouteSame', function (string $expectedRoute, array $parameters = []): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Request::class))
-            ->toBeInstanceOf(Request::class)
             ->toMatchConstraint(BrowsertKit::createRouteSame($expectedRoute, $parameters));
 
         return test();
@@ -136,7 +123,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertThatForResponse', function (Constraint $constraint): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toBeInstanceOf(Response::class)
             ->toMatchConstraint($constraint);
 
         return test();
@@ -144,7 +130,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertThatForClient', function (Constraint $constraint): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, KernelBrowser::class))
-            ->toBeInstanceOf(KernelBrowser::class)
             ->toMatchConstraint($constraint);
 
         return test();

@@ -9,7 +9,6 @@ use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
 use Pest\Symfony\Constraint\Factory\DomCrawler;
 use Pest\Symfony\WebTestCase;
-use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Test\Constraint as DomCrawlerConstraint;
 
 function extend(Expectation $expect): void
@@ -24,7 +23,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertSelectorExists', function (string $selector): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorExists($selector));
 
         return test();
@@ -32,7 +30,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertSelectorCount', function (int $expectedCount, string $selector): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorCount($expectedCount, $selector));
 
         return test();
@@ -40,7 +37,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertSelectorTextContains', function (string $selector, string $text): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextContains($selector, $text));
 
         return test();
@@ -48,7 +44,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertAnySelectorTextContains', function (string $selector, string $text): HigherOrderTapProxy|TestCall { // @phpstan-ignore-line
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(DomCrawler::createAnySelectorTextContains($selector, $text));
 
         return test();
@@ -56,7 +51,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertSelectorTextSame', function (string $selector, string $text): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextSame($selector, $text));
 
         return test();
@@ -64,7 +58,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertAnySelectorTextSame', function (string $selector, string $text): HigherOrderTapProxy|TestCall { // @phpstan-ignore-line
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(DomCrawler::createAnySelectorTextSame($selector, $text));
 
         return test();
@@ -72,7 +65,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertPageTitleSame', function (string $expectedTitle): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextSame('title', $expectedTitle));
 
         return test();
@@ -80,7 +72,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertPageTitleContains', function (string $expectedTitle): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextContains('title', $expectedTitle));
 
         return test();
@@ -88,7 +79,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertInputValueSame', function (string $selector, string $expectedValue): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(DomCrawler::createInputValueSame($selector, $expectedValue));
 
         return test();
@@ -96,7 +86,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertCheckboxChecked', function (string $fieldName): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorExists("input[name=\"$fieldName\"]:checked"));
 
         return test();

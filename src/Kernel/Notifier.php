@@ -56,7 +56,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(NotificationEvents::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport));
 
         return test();
@@ -64,7 +63,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertQueuedNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toBeInstanceOf(NotificationEvents::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport, true));
 
         return test();
@@ -72,7 +70,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertNotificationIsQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toBeInstanceOf(MessageEvent::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationIsQueued());
 
         return test();
@@ -80,7 +77,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertNotificationSubjectContains', function (string $subject): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toBeInstanceOf(MessageInterface::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationSubjectContains($subject));
 
         return test();
@@ -88,7 +84,6 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertNotificationTransportIsEqual', function (?string $transportName = null): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toBeInstanceOf(MessageInterface::class)
             ->toMatchConstraint(new NotifierConstraint\NotificationTransportIsEqual($transportName));
 
         return test();
