@@ -25,11 +25,8 @@ uses(Pest\Symfony\KernelTestCase::class)->in('Integration');
 |
 */
 
-Pest\Symfony\Web\BrowserKit\extend(expect());
-Pest\Symfony\Web\DomCrawler\extend(expect());
-Pest\Symfony\Kernel\Mailer\extend(expect());
-Pest\Symfony\Kernel\Notifier\extend(expect());
-Pest\Symfony\Kernel\HttpClient\extend(expect());
+Pest\Symfony\Web\extend(expect());
+Pest\Symfony\Kernel\extend(expect());
 
 /*
 |--------------------------------------------------------------------------
