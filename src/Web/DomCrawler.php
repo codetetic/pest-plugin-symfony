@@ -7,6 +7,7 @@ namespace Pest\Symfony\Web\DomCrawler;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\Constraint\Factory\DomCrawler;
 use Pest\Symfony\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Test\Constraint as DomCrawlerConstraint;
@@ -29,10 +30,58 @@ function extend(Expectation $expect): void
         return test();
     });
 
+    $expect->extend('assertSelectorCount', function (int $expectedCount, string $selector): HigherOrderTapProxy|TestCall {
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorCount($expectedCount, $selector));
+
+        return test();
+    });
+
     $expect->extend('assertSelectorTextContains', function (string $selector, string $text): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
             ->toBeInstanceOf(Crawler::class)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextContains($selector, $text));
+
+        return test();
+    });
+
+    $expect->extend('assertAnySelectorTextContains', function (string $selector, string $text): HigherOrderTapProxy|TestCall { // @phpstan-ignore-line
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(DomCrawler::createAnySelectorTextContains($selector, $text));
+
+        return test();
+    });
+
+    $expect->extend('assertSelectorTextSame', function (string $selector, string $text): HigherOrderTapProxy|TestCall {
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextSame($selector, $text));
+
+        return test();
+    });
+
+    $expect->extend('assertAnySelectorTextSame', function (string $selector, string $text): HigherOrderTapProxy|TestCall { // @phpstan-ignore-line
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(DomCrawler::createAnySelectorTextSame($selector, $text));
+
+        return test();
+    });
+
+    $expect->extend('assertPageTitleSame', function (string $expectedTitle): HigherOrderTapProxy|TestCall {
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextSame('title', $expectedTitle));
+
+        return test();
+    });
+
+    $expect->extend('assertPageTitleContains', function (string $expectedTitle): HigherOrderTapProxy|TestCall {
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextContains('title', $expectedTitle));
 
         return test();
     });

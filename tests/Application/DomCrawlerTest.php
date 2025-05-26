@@ -16,9 +16,51 @@ it('can assert SelectorExists', function (): void {
     expect(getCrawler())->assertSelectorExists('title');
 });
 
+it('can assert SelectorCount', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertSelectorCount(1, 'title');
+    expect(getCrawler())->assertSelectorCount(1, 'title');
+});
+
 it('can assert SelectorTextContains', function (): void {
     createClient()->request('GET', '/html');
 
     expect($this)->assertSelectorTextContains('title', 'Welcome!');
     expect(getCrawler())->assertSelectorTextContains('title', 'Welcome!');
+});
+
+it('can assert AnySelectorTextContains', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertAnySelectorTextContains('title', 'Welcome!');
+    expect(getCrawler())->assertAnySelectorTextContains('title', 'Welcome!');
+});
+
+it('can assert SelectorTextSame', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertSelectorTextSame('title', 'Welcome!');
+    expect(getCrawler())->assertSelectorTextSame('title', 'Welcome!');
+});
+
+it('can assert AnySelectorTextSame', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertAnySelectorTextSame('title', 'Welcome!');
+    expect(getCrawler())->assertAnySelectorTextSame('title', 'Welcome!');
+});
+
+it('can assert PageTitleContains', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertPageTitleContains('Welcome!');
+    expect(getCrawler())->assertPageTitleContains('Welcome!');
+});
+
+it('can assert PageTitleSame', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertPageTitleSame('Welcome!');
+    expect(getCrawler())->assertPageTitleSame('Welcome!');
 });
