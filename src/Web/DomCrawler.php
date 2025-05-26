@@ -85,4 +85,25 @@ function extend(Expectation $expect): void
 
         return test();
     });
+
+    $expect->extend('assertInputValueSame', function (string $selector, string $expectedValue): HigherOrderTapProxy|TestCall {
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(DomCrawler::createInputValueSame($selector, $expectedValue));
+
+        return test();
+    });
+
+    $expect->extend('assertCheckboxChecked', function (string $fieldName): HigherOrderTapProxy|TestCall {
+        expect(unwrap($this->value))
+            ->toBeInstanceOf(Crawler::class)
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorExists("input[name=\"$fieldName\"]:checked"));
+
+        return test();
+    });
+
+    $expect->extend('assertFormValue', function (string $formSelector, string $fieldName, string $value): HigherOrderTapProxy|TestCall {
+
+        return test();
+    });
 }

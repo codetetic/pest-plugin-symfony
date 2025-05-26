@@ -27,4 +27,15 @@ class DomCrawler
 
         return LogicalAnd::fromConstraints(...$constraints);
     }
+
+    // TODO: fix not version
+    public static function createInputValueSame(string $fieldName, string $expectedValue): Constraint
+    {
+        $constraints = [
+            new DomCrawlerConstraint\CrawlerSelectorExists("input[name=\"$fieldName\"]"),
+            new DomCrawlerConstraint\CrawlerSelectorAttributeValueSame("input[name=\"$fieldName\"]", 'value', $expectedValue),
+        ];
+
+        return LogicalAnd::fromConstraints(...$constraints);
+    }
 }

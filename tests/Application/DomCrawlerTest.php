@@ -64,3 +64,24 @@ it('can assert PageTitleSame', function (): void {
     expect($this)->assertPageTitleSame('Welcome!');
     expect(getCrawler())->assertPageTitleSame('Welcome!');
 });
+
+it('can assert InputValueSame', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertInputValueSame('text', 'value');
+    expect(getCrawler())->assertInputValueSame('text', 'value');
+});
+
+it('can assert CheckboxChecked', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertCheckboxChecked('checkbox');
+    expect(getCrawler())->assertCheckboxChecked('checkbox');
+});
+
+it('can assert FormValue', function (): void {
+    createClient()->request('GET', '/html');
+
+    expect($this)->assertFormValue('title', 'Welcome!');
+    expect(getCrawler())->assertFormValue('title', 'Welcome!');
+})->skip();
