@@ -82,6 +82,6 @@ it('can assert CheckboxChecked', function (): void {
 it('can assert FormValue', function (): void {
     createClient()->request('GET', '/html');
 
-    expect($this)->assertFormValue('title', 'Welcome!');
-    expect(getCrawler())->assertFormValue('title', 'Welcome!');
-})->skip();
+    expect($this)->assertFormValue('form', 'text', 'value');
+    expect(getCrawler())->assertFormValue('form', 'text', 'value');
+});

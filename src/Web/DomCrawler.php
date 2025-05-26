@@ -7,6 +7,7 @@ namespace Pest\Symfony\Web\DomCrawler;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\Constraint\DomCrawlerFormValueSame;
 use Pest\Symfony\Constraint\Factory\DomCrawler;
 use Pest\Symfony\WebTestCase;
 use Symfony\Component\DomCrawler\Test\Constraint as DomCrawlerConstraint;
@@ -92,6 +93,8 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('assertFormValue', function (string $formSelector, string $fieldName, string $value): HigherOrderTapProxy|TestCall {
+        expect(unwrap($this->value))
+            ->toMatchConstraint(new DomCrawlerFormValueSame($formSelector, $fieldName, $value));
 
         return test();
     });
