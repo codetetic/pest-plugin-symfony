@@ -44,7 +44,7 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertAnySelectorTextContains', function (string $selector, string $text): HigherOrderTapProxy|TestCall { // @phpstan-ignore-line
         expect(unwrap($this->value))
-            ->toMatchConstraint(DomCrawler::createAnySelectorTextContains($selector, $text));
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerAnySelectorTextContains($selector, $text));
 
         return test();
     });
@@ -58,7 +58,7 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertAnySelectorTextSame', function (string $selector, string $text): HigherOrderTapProxy|TestCall { // @phpstan-ignore-line
         expect(unwrap($this->value))
-            ->toMatchConstraint(DomCrawler::createAnySelectorTextSame($selector, $text));
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerAnySelectorTextSame($selector, $text));
 
         return test();
     });
@@ -79,7 +79,7 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertInputValueSame', function (string $selector, string $expectedValue): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value))
-            ->toMatchConstraint(DomCrawler::createInputValueSame($selector, $expectedValue));
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorAttributeValueSame("input[name=\"$selector\"]", 'value', $expectedValue));
 
         return test();
     });

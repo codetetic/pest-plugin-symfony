@@ -81,7 +81,7 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertResponseCookieValueSame', function (string $name, string $expectedValue, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, Response::class))
-            ->toMatchConstraint(BrowsertKit::createResponseCookieValueSame($name, $expectedValue, $path, $domain));
+            ->toMatchConstraint(new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain));
 
         return test();
     });
@@ -102,7 +102,7 @@ function extend(Expectation $expect): void
 
     $expect->extend('assertBrowserCookieValueSame', function (string $name, string $expectedValue, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
         expect(unwrap($this->value, KernelBrowser::class))
-            ->toMatchConstraint(BrowsertKit::createBrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain));
+            ->toMatchConstraint(new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain));
 
         return test();
     });
