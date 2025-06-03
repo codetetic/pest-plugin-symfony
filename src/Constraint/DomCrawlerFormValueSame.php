@@ -21,9 +21,6 @@ final class DomCrawlerFormValueSame extends Constraint
         return sprintf('Field "%s" has a value in form "%s".', $this->fieldName, $this->formSelector);
     }
 
-    /**
-     * @param Crawler $collector
-     */
     protected function matches($crawler): bool
     {
         if (!($crawler instanceof Crawler)) {
@@ -31,7 +28,7 @@ final class DomCrawlerFormValueSame extends Constraint
         }
 
         $node = $crawler->filter($this->formSelector);
-        if (count($node) === 0) {
+        if (0 === count($node)) {
             return false;
         }
 
@@ -43,11 +40,8 @@ final class DomCrawlerFormValueSame extends Constraint
         return $this->value === $values[$this->fieldName];
     }
 
-    /**
-     * @param Crawler $collector
-     */
     protected function failureDescription($crawler): string
     {
         return sprintf('Field "%s" has a value in form "%s".', $this->fieldName, $this->formSelector);
- }
+    }
 }

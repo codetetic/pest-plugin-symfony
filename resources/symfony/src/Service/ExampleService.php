@@ -2,11 +2,8 @@
 
 namespace App\Service;
 
-use App\Message\ExampleMessage;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
@@ -43,7 +40,7 @@ class ExampleService
     {
         $this->texter->send(
             new SmsMessage(
-              '+1411111111',
+                '+1411111111',
                 'subject',
                 '+1422222222',
             ),

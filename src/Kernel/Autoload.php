@@ -24,4 +24,3 @@ function getContainer(): ContainerInterface
 {
     return test()->getContainer();
 }
-

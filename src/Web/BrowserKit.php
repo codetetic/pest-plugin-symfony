@@ -42,9 +42,9 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveResponseHeader', function (string $headerName, string $expectedValue = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveResponseHeader', function (string $headerName, ?string $expectedValue = null): HigherOrderTapProxy|TestCall {
         $constraint = new ResponseConstraint\ResponseHasHeader($headerName);
-        if (func_num_args() === 2) {
+        if (2 === func_num_args()) {
             $constraint = new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue);
         }
 
@@ -56,7 +56,7 @@ function extend(Expectation $expect): void
 
     $expect->extend('toHaveResponseCookie', function (string $name, ?string $expectedValue = null, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
         $constraint = new ResponseConstraint\ResponseHasCookie($name, $path, $domain);
-        if (func_num_args() === 2) {
+        if (2 === func_num_args()) {
             $constraint = new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain);
         }
 

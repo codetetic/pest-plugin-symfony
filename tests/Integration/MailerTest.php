@@ -2,6 +2,7 @@
 
 use Symfony\Component\Mailer\Event\MessageEvent;
 use Symfony\Component\Mime\RawMessage;
+
 use function Pest\Symfony\Kernel\getContainer;
 use function Pest\Symfony\Kernel\Mailer\getMailerEvent;
 use function Pest\Symfony\Kernel\Mailer\getMailerEvents;

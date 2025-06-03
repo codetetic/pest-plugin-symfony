@@ -3,6 +3,7 @@
 use Symfony\Component\Notifier\Event\MessageEvent;
 use Symfony\Component\Notifier\Event\NotificationEvents;
 use Symfony\Component\Notifier\Message\MessageInterface;
+
 use function Pest\Symfony\Kernel\getContainer;
 use function Pest\Symfony\Kernel\Notifier\getNotifierEvent;
 use function Pest\Symfony\Kernel\Notifier\getNotifierEvents;
