@@ -46,80 +46,78 @@ it('can chain assert', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessageEvents())
-        ->assertEmailCount(0)
-        ->assertQueuedEmailCount(1);
+        ->toHaveEmailCount(0)
+        ->toHaveQueuedEmailCount(1);
 });
 
 it('can assert EmailCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
-    expect($this)
-        ->assertEmailCount(0);
+    $this->assertEmailCount(0);
     expect(getMailerMessageEvents())
-        ->assertEmailCount(0);
+        ->toHaveEmailCount(0);
 });
 
 it('can assert QueuedEmailCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
-    expect($this)
-        ->assertQueuedEmailCount(1);
+    $this->assertQueuedEmailCount(1);
     expect(getMailerMessageEvents())
-        ->assertQueuedEmailCount(1);
+        ->toHaveQueuedEmailCount(1);
 });
 
 it('can assert EmailIsQueued', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerEvent())
-        ->assertEmailIsQueued();
+        ->toHaveEmailIsQueued();
 });
 
 it('can assert EmailAttachmentCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessage())
-        ->assertEmailAttachmentCount(0);
+        ->toHaveEmailAttachmentCount(0);
 });
 
 it('can assert EmailTextBodyContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessage())
-        ->assertEmailTextBodyContains('text');
+        ->toHaveEmailTextBodyContains('text');
 });
 
 it('can assert EmailHtmlBodyContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessage())
-        ->assertEmailHtmlBodyContains('html');
+        ->toHaveEmailHtmlBodyContains('html');
 });
 
 it('can assert EmailHasHeader', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessage())
-        ->assertEmailHasHeader('From');
+        ->toHaveEmailHasHeader('From');
 });
 
 it('can assert EmailHeaderSame', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessage())
-        ->assertEmailHeaderSame('From', 'from@example.com');
+        ->toHaveEmailHeaderSame('From', 'from@example.com');
 });
 
 it('can assert EmailAddressContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessage())
-        ->assertEmailAddressContains('To', 'to@example.com');
+        ->toHaveEmailAddressContains('To', 'to@example.com');
 });
 
 it('can assert EmailSubjectContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessage())
-        ->assertEmailSubjectContains('subject');
+        ->toHaveEmailSubjectContains('subject');
 });

@@ -7,7 +7,6 @@ namespace Pest\Symfony\Kernel\Notifier;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
-use Pest\Symfony\KernelTestCase;
 use Symfony\Component\Notifier\Event\MessageEvent;
 use Symfony\Component\Notifier\Event\NotificationEvents;
 use Symfony\Component\Notifier\Message\MessageInterface;
@@ -41,48 +40,40 @@ function getNotifierMessage(int $index = 0, ?string $transportName = null): ?Mes
 
 function getNotifierNotificationEvents(): NotificationEvents
 {
-    return test()->getNotifierNotificationEvents();
+    return test()->getNotificationEvents();
 }
 
 function extend(Expectation $expect): void
 {
-    function unwrap(mixed $value): mixed
-    {
-        return match (true) {
-            $value instanceof KernelTestCase => $value->getNotifierNotificationEvents(),
-            default => $value,
-        };
-    }
-
-    $expect->extend('assertNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value))
+    $expect->extend('toHaveNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport));
 
         return test();
     });
 
-    $expect->extend('assertQueuedNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value))
+    $expect->extend('toHaveQueuedNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport, true));
 
         return test();
     });
 
-    $expect->extend('assertNotificationIsQueued', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotificationIsQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationIsQueued());
 
         return test();
     });
 
-    $expect->extend('assertNotificationSubjectContains', function (string $subject): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotificationSubjectContains', function (string $subject): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationSubjectContains($subject));
 
         return test();
     });
 
-    $expect->extend('assertNotificationTransportIsEqual', function (?string $transportName = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotificationTransportIsEqual', function (?string $transportName = null): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationTransportIsEqual($transportName));
 

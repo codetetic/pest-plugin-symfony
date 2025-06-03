@@ -8,129 +8,95 @@ use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
 use Pest\Symfony\Constraint\Factory\BrowsertKit;
-use Pest\Symfony\WebTestCase;
-use PHPUnit\Framework\Constraint\Constraint;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
 
 function extend(Expectation $expect): void
 {
-    function unwrap(mixed $value, string $class): mixed
-    {
-        return match (true) {
-            $value instanceof WebTestCase => match ($class) {
-                Response::class => $value->getClientResponse(),
-                Request::class => $value->getClientRequest(),
-                KernelBrowser::class => $value->getClient(),
-            },
-            default => $value,
-        };
-    }
-
-    $expect->extend('assertResponseIsSuccessful', function (): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
+    $expect->extend('toHaveResponseIsSuccessful', function (): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\ResponseIsSuccessful());
 
         return test();
     });
 
-    $expect->extend('assertResponseStatusCodeSame', function (int $expectedCode): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
+    $expect->extend('toHaveResponseStatusCode', function (int $expectedCode): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\ResponseStatusCodeSame($expectedCode));
 
         return test();
     });
 
-    $expect->extend('assertResponseFormatSame', function (Request $request, ?string $expectedFormat): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
+    $expect->extend('toHaveResponseFormat', function (Request $request, ?string $expectedFormat): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\ResponseFormatSame($request, $expectedFormat));
 
         return test();
     });
 
-    $expect->extend('assertResponseRedirects', function (Request $request, ?string $expectedLocation = null, ?int $expectedCode = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
+    $expect->extend('toHaveResponseRedirect', function (Request $request, ?string $expectedLocation = null, ?int $expectedCode = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(BrowsertKit::createResponseRedirects($request, $expectedLocation, $expectedCode));
 
         return test();
     });
 
-    $expect->extend('assertResponseHasHeader', function (string $headerName): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
-            ->toMatchConstraint(new ResponseConstraint\ResponseHasHeader($headerName));
+    $expect->extend('toHaveResponseHeader', function (string $headerName, string $expectedValue = null): HigherOrderTapProxy|TestCall {
+        $constraint = new ResponseConstraint\ResponseHasHeader($headerName);
+        if (func_num_args() === 2) {
+            $constraint = new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue);
+        }
+
+        expect($this->value)
+            ->toMatchConstraint($constraint);
 
         return test();
     });
 
-    $expect->extend('assertResponseHeaderSame', function (string $headerName, string $expectedValue): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
-            ->toMatchConstraint(new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue));
+    $expect->extend('toHaveResponseCookie', function (string $name, ?string $expectedValue = null, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
+        $constraint = new ResponseConstraint\ResponseHasCookie($name, $path, $domain);
+        if (func_num_args() === 2) {
+            $constraint = new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain);
+        }
+
+        expect($this->value)
+            ->toMatchConstraint($constraint);
 
         return test();
     });
 
-    $expect->extend('assertResponseHasCookie', function (string $name, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
-            ->toMatchConstraint(new ResponseConstraint\ResponseHasCookie($name, $path, $domain));
-
-        return test();
-    });
-
-    $expect->extend('assertResponseCookieValueSame', function (string $name, string $expectedValue, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
-            ->toMatchConstraint(new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain));
-
-        return test();
-    });
-
-    $expect->extend('assertResponseIsUnprocessable', function (): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
+    $expect->extend('toHaveResponseIsUnprocessable', function (): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\ResponseIsUnprocessable());
 
         return test();
     });
 
-    $expect->extend('assertBrowserHasCookie', function (string $name, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, KernelBrowser::class))
+    $expect->extend('toHaveBrowserCookie', function (string $name, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain));
 
         return test();
     });
 
-    $expect->extend('assertBrowserCookieValueSame', function (string $name, string $expectedValue, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, KernelBrowser::class))
+    $expect->extend('toHaveBrowserCookieValueSame', function (string $name, string $expectedValue, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain));
 
         return test();
     });
 
-    $expect->extend('assertRequestAttributeValueSame', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Request::class))
+    $expect->extend('toHaveRequestAttributeValueSame', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame($name, $expectedValue));
 
         return test();
     });
 
-    $expect->extend('assertRouteSame', function (string $expectedRoute, array $parameters = []): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Request::class))
+    $expect->extend('toHaveRouteSame', function (string $expectedRoute, array $parameters = []): HigherOrderTapProxy|TestCall {
+        expect($this->value)
             ->toMatchConstraint(BrowsertKit::createRouteSame($expectedRoute, $parameters));
-
-        return test();
-    });
-
-    $expect->extend('assertThatForResponse', function (Constraint $constraint): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, Response::class))
-            ->toMatchConstraint($constraint);
-
-        return test();
-    });
-
-    $expect->extend('assertThatForClient', function (Constraint $constraint): HigherOrderTapProxy|TestCall {
-        expect(unwrap($this->value, KernelBrowser::class))
-            ->toMatchConstraint($constraint);
 
         return test();
     });

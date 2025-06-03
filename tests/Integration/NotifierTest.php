@@ -48,38 +48,36 @@ it('can assert getNotifierNotificationEvents', function (): void {
 it('can assert NotifierCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
-    expect($this)
-        ->assertNotificationCount(0);
+    $this->assertNotificationCount(0);
     expect(getNotifierNotificationEvents())
-        ->assertNotificationCount(0);
+        ->toHaveNotificationCount(0);
 });
 
 it('can assert QueuedNotifierCount', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
-    expect($this)
-        ->assertQueuedNotificationCount(1);
+    $this->assertQueuedNotificationCount(1);
     expect(getNotifierNotificationEvents())
-        ->assertQueuedNotificationCount(1);
+        ->toHaveQueuedNotificationCount(1);
 });
 
 it('can assert NotifierIsQueued', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierEvent())
-        ->assertNotificationIsQueued();
+        ->toHaveNotificationIsQueued();
 });
 
 it('can assert NotifierSubjectContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierMessage())
-        ->assertNotificationSubjectContains('subject');
+        ->toHaveNotificationSubjectContains('subject');
 });
 
 it('can assert NotifierTransportIsEqual', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierMessage())
-        ->assertNotificationTransportIsEqual(null);
+        ->toHaveNotificationTransportIsEqual(null);
 });

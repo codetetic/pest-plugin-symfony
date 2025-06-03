@@ -18,25 +18,25 @@ function extend(Expectation $expect): void
 
 function createClient(array $options = [], array $server = []): AbstractBrowser
 {
-    return test()->createClient(...func_get_args());
+    return test()->createClient($options, $server);
 }
 
 function getClient(?AbstractBrowser $newClient = null): ?AbstractBrowser
 {
-    return test()->getClient(...func_get_args());
+    return test()->getClient($newClient);
 }
 
 function getRequest(): Request
 {
-    return test()->getClientRequest();
+    return test()->getRequest();
 }
 
 function getResponse(): Response
 {
-    return test()->getClientResponse();
+    return test()->getResponse();
 }
 
 function getCrawler(): ?Crawler
 {
-    return test()->getClientCrawler();
+    return test()->getCrawler();
 }

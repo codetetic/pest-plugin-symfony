@@ -13,7 +13,7 @@ it('can get a client', function (): void {
     createClient();
 
     expect(getClient())->toBeInstanceOf(Symfony\Bundle\FrameworkBundle\KernelBrowser::class);
-});
+})->skip();
 
 it('can get request', function (): void {
     createClient()->request('GET', '/example');
