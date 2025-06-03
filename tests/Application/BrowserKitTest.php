@@ -1,6 +1,7 @@
 <?php
 
 use function Pest\Symfony\Web\createClient;
+use function Pest\Symfony\Web\getClient;
 use function Pest\Symfony\Web\getRequest;
 use function Pest\Symfony\Web\getResponse;
 
@@ -76,19 +77,17 @@ it('can assert ResponseIsUnprocessable', function (): void {
 });
 
 it('can assert BrowserHasCookie', function (): void {
-    $client = createClient();
-    $client->request('GET', '/cookie');
+    createClient()->request('GET', '/cookie');
 
     $this->assertBrowserHasCookie('name');
-    expect($client)->toHaveBrowserCookie('name');
+    expect(getClient())->toHaveBrowserCookie('name');
 });
 
 it('can assert BrowserCookieValueSame', function (): void {
-    $client = createClient();
-    $client->request('GET', '/cookie');
+    createClient()->request('GET', '/cookie');
 
     $this->assertBrowserCookieValueSame('name', 'value');
-    expect($client)->toHaveBrowserCookieValueSame('name', 'value');
+    expect(getClient())->toHaveBrowserCookieValueSame('name', 'value');
 });
 
 it('can assert RequestAttributeValueSame', function (): void {

@@ -23,7 +23,7 @@ function createClient(array $options = [], array $server = []): AbstractBrowser
 
 function getClient(?AbstractBrowser $newClient = null): ?AbstractBrowser
 {
-    return test()->getClient($newClient);
+    return test()->getClient(...func_get_args());
 }
 
 function getRequest(): Request
