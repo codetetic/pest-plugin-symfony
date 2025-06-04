@@ -45,35 +45,28 @@ function getNotifierNotificationEvents(): NotificationEvents
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('toHaveNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotifierCount', function (int $count, ?string $transport = null, bool $queued = false): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport));
+            ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport, $queued));
 
         return test();
     });
 
-    $expect->extend('toHaveQueuedNotificationCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        expect($this->value)
-            ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport, true));
-
-        return test();
-    });
-
-    $expect->extend('toHaveNotificationIsQueued', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotifierIsQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationIsQueued());
 
         return test();
     });
 
-    $expect->extend('toHaveNotificationSubjectContains', function (string $subject): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotifierSubjectContains', function (string $subject): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationSubjectContains($subject));
 
         return test();
     });
 
-    $expect->extend('toHaveNotificationTransportIsEqual', function (?string $transportName = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotifierTransportIsEqual', function (?string $transportName = null): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationTransportIsEqual($transportName));
 

@@ -47,8 +47,8 @@ it('can chain assert', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getMailerMessageEvents())
-        ->toHaveEmailCount(0)
-        ->toHaveQueuedEmailCount(1);
+        ->toHaveEmailCount(0, queued: false)
+        ->toHaveEmailCount(1, queued: true);
 });
 
 it('can assert EmailCount', function (): void {
@@ -56,7 +56,7 @@ it('can assert EmailCount', function (): void {
 
     $this->assertEmailCount(0);
     expect(getMailerMessageEvents())
-        ->toHaveEmailCount(0);
+        ->toHaveEmailCount(0, queued: false);
 });
 
 it('can assert QueuedEmailCount', function (): void {
@@ -64,7 +64,7 @@ it('can assert QueuedEmailCount', function (): void {
 
     $this->assertQueuedEmailCount(1);
     expect(getMailerMessageEvents())
-        ->toHaveQueuedEmailCount(1);
+        ->toHaveEmailCount(1, queued: true);
 });
 
 it('can assert EmailIsQueued', function (): void {

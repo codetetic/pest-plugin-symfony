@@ -51,7 +51,7 @@ it('can assert NotifierCount', function (): void {
 
     $this->assertNotificationCount(0);
     expect(getNotifierNotificationEvents())
-        ->toHaveNotificationCount(0);
+        ->toHaveNotifierCount(0, queued: false);
 });
 
 it('can assert QueuedNotifierCount', function (): void {
@@ -59,26 +59,26 @@ it('can assert QueuedNotifierCount', function (): void {
 
     $this->assertQueuedNotificationCount(1);
     expect(getNotifierNotificationEvents())
-        ->toHaveQueuedNotificationCount(1);
+        ->toHaveNotifierCount(1, queued: true);
 });
 
 it('can assert NotifierIsQueued', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierEvent())
-        ->toHaveNotificationIsQueued();
+        ->toHaveNotifierIsQueued();
 });
 
 it('can assert NotifierSubjectContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierMessage())
-        ->toHaveNotificationSubjectContains('subject');
+        ->toHaveNotifierSubjectContains('subject');
 });
 
 it('can assert NotifierTransportIsEqual', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierMessage())
-        ->toHaveNotificationTransportIsEqual(null);
+        ->toHaveNotifierTransportIsEqual(null);
 });

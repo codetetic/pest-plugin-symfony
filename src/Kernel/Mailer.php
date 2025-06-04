@@ -46,16 +46,9 @@ function getMailerMessageEvents(): MessageEvents
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('toHaveEmailCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveEmailCount', function (int $count, ?string $transport = null, bool $queued = false): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new MailerConstraint\EmailCount($count, $transport));
-
-        return test();
-    });
-
-    $expect->extend('toHaveQueuedEmailCount', function (int $count, ?string $transport = null): HigherOrderTapProxy|TestCall {
-        expect($this->value)
-            ->toMatchConstraint(new MailerConstraint\EmailCount($count, $transport, true));
+            ->toMatchConstraint(new MailerConstraint\EmailCount($count, $transport, $queued));
 
         return test();
     });
