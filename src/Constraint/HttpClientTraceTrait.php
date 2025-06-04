@@ -8,12 +8,12 @@ use Symfony\Component\HttpClient\DataCollector\HttpClientDataCollector;
 
 trait HttpClientTraceTrait
 {
-    private function getTraces(HttpClientDataCollector $collector): ?array
+    private function getTraces(HttpClientDataCollector $collector, string $httpClientId): ?array
     {
         if (0 === count($collector->getClients())) {
             $collector->lateCollect();
         }
 
-        return $collector->getClients()[$this->httpClientId]['traces'];
+        return $collector->getClients()[$httpClientId]['traces'];
     }
 }

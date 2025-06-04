@@ -34,7 +34,7 @@ final class HttpClientTraceValueSame extends Constraint
             return false;
         }
 
-        $traces = $this->getTraces($collector);
+        $traces = $this->getTraces($collector, $this->httpClientId);
         if (null === $traces) {
             return false;
         }
