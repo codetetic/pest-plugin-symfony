@@ -15,12 +15,12 @@ use Symfony\Component\Notifier\Test\Constraint as NotifierConstraint;
 /**
  * @return MessageEvent[]
  */
-function getNotifierEvents(?string $transportName = null): array
+function getEvents(?string $transportName = null): array
 {
     return test()->getNotifierEvents($transportName);
 }
 
-function getNotifierEvent(int $index = 0, ?string $transportName = null): ?MessageEvent
+function getEvent(int $index = 0, ?string $transportName = null): ?MessageEvent
 {
     return test()->getNotifierEvent($index, $transportName);
 }
@@ -28,17 +28,17 @@ function getNotifierEvent(int $index = 0, ?string $transportName = null): ?Messa
 /**
  * @return MessageInterface[]
  */
-function getNotifierMessages(?string $transportName = null): array
+function getMessages(?string $transportName = null): array
 {
     return test()->getNotifierMessages($transportName);
 }
 
-function getNotifierMessage(int $index = 0, ?string $transportName = null): ?MessageInterface
+function getMessage(int $index = 0, ?string $transportName = null): ?MessageInterface
 {
     return test()->getNotifierMessage($index, $transportName);
 }
 
-function getNotifierNotificationEvents(): NotificationEvents
+function getNotificationEvents(): NotificationEvents
 {
     return test()->getNotificationEvents();
 }
