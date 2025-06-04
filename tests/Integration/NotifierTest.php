@@ -73,12 +73,12 @@ it('can assert NotifierSubjectContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierMessage())
-        ->toHaveNotifierSubjectContains('subject');
+        ->toHaveNotifierSubject('subject');
 });
 
 it('can assert NotifierTransportIsEqual', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
     expect(getNotifierMessage())
-        ->toHaveNotifierTransportIsEqual(null);
+        ->toHaveNotifierTransport(null);
 });
