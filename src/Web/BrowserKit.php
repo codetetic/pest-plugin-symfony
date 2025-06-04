@@ -8,6 +8,7 @@ use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
 use Pest\Symfony\Constraint\Factory\BrowsertKit;
+use PHPUnit\Framework\Constraint\LogicalAnd;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
@@ -36,8 +37,18 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveResponseRedirect', function (Request $request, ?string $expectedLocation = null, ?int $expectedCode = null): HigherOrderTapProxy|TestCall {
+        $constraints = [
+            new ResponseConstraint\ResponseIsRedirected(),
+        ];
+        if ($expectedLocation) {
+            $constraints[] = new ResponseConstraint\ResponseHeaderLocationSame($request, $expectedLocation);
+        }
+        if ($expectedCode) {
+            $constraints[] = new ResponseConstraint\ResponseStatusCodeSame($expectedCode);
+        }
+
         expect($this->value)
-            ->toMatchConstraint(BrowsertKit::createResponseRedirects($request, $expectedLocation, $expectedCode));
+            ->toMatchConstraint(LogicalAnd::fromConstraints(...$constraints));
 
         return test();
     });
@@ -95,8 +106,15 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveRouteSame', function (string $expectedRoute, array $parameters = []): HigherOrderTapProxy|TestCall {
+        $constraints = [
+            new ResponseConstraint\RequestAttributeValueSame('_route', $expectedRoute),
+        ];
+        foreach ($parameters as $key => $value) {
+            $constraints[] = new ResponseConstraint\RequestAttributeValueSame($key, $value);
+        }
+
         expect($this->value)
-            ->toMatchConstraint(BrowsertKit::createRouteSame($expectedRoute, $parameters));
+            ->toMatchConstraint(LogicalAnd::fromConstraints(...$constraints));
 
         return test();
     });
