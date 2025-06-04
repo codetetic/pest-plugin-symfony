@@ -39,57 +39,47 @@ final class HttpClientTraceValueSame extends Constraint
             return false;
         }
 
-        $expectedRequestHasBeenFound = false;
         foreach ($traces as $trace) {
-            if (($this->expectedUrl !== $trace['info']['url'] && $this->expectedUrl !== $trace['url'])
-                || $this->expectedMethod !== $trace['method']
-            ) {
+            $traceUrl = $trace['info']['url'] ?? $trace['url'] ?? null;
+            if ($this->expectedUrl !== $traceUrl) {
                 continue;
             }
 
-            if (null !== $this->expectedBody) {
-                dd($this->expectedBody);
-                $actualBody = null;
+            if ($this->expectedMethod !== $trace['method']) {
+                continue;
+            }
 
-                if (null !== $trace['options']['body'] && null === $trace['options']['json']) {
-                    $actualBody = \is_string($trace['options']['body']) ? $trace['options']['body'] : $trace['options']['body']->getValue(true);
-                }
-
-                if (null === $trace['options']['body'] && null !== $trace['options']['json']) {
-                    $actualBody = $trace['options']['json']->getValue(true);
-                }
-
-                if (!$actualBody) {
-                    continue;
-                }
-
-                if ($this->expectedBody === $actualBody) {
-                    $expectedRequestHasBeenFound = true;
-
-                    if (!$this->expectedHeaders) {
-                        break;
-                    }
-                }
+            if (null !== $this->expectedBody && $this->expectedBody !== $this->getBody($trace)) {
+                continue;
             }
 
             if ($this->expectedHeaders) {
                 $actualHeaders = $trace['options']['headers'] ?? [];
 
-                foreach ($actualHeaders as $headerKey => $actualHeader) {
-                    if (\array_key_exists($headerKey, $this->expectedHeaders)
-                        && $this->expectedHeaders[$headerKey] === $actualHeader->getValue(true)
-                    ) {
-                        $expectedRequestHasBeenFound = true;
-                        break 2;
+                foreach ($this->expectedHeaders as $headerKey => $expectedHeader) {
+                    if (!isset($actualHeaders[$headerKey]) || $expectedHeader !== $actualHeaders[$headerKey]->getValue(true)) {
+                        continue 2;
                     }
                 }
             }
 
-            $expectedRequestHasBeenFound = true;
-            break;
+            return true;
         }
 
-        return $expectedRequestHasBeenFound;
+        return false;
+    }
+
+    private function getBody(array $trace): string|array|null
+    {
+        if (null !== $trace['options']['body'] && null === $trace['options']['json']) {
+            return \is_string($trace['options']['body']) ? $trace['options']['body'] : $trace['options']['body']->getValue(true);
+        }
+
+        if (null === $trace['options']['body'] && null !== $trace['options']['json']) {
+            return $trace['options']['json']->getValue(true);
+        }
+
+        return null;
     }
 
     /**
