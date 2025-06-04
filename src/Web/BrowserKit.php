@@ -7,7 +7,6 @@ namespace Pest\Symfony\Web\BrowserKit;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
-use Pest\Symfony\Constraint\Factory\BrowsertKit;
 use PHPUnit\Framework\Constraint\LogicalAnd;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
 use Symfony\Component\HttpFoundation\Request;

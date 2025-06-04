@@ -18,6 +18,10 @@ framework:
         log: true
 
     http_client:
+        mock_response_factory: App\Tests\MockClientCallback
+        scoped_clients:
+            symfony.http_client:
+                base_uri: 'https://symfony.com'
 
 when@test:
     framework:

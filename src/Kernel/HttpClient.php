@@ -22,6 +22,7 @@ function getHttpClientDataCollector(): HttpClientDataCollector
 
     /** @var HttpClientDataCollector $httpClientDataCollector */
     $httpClientDataCollector = $profile->getCollector('http_client');
+
     return $httpClientDataCollector;
 }
 

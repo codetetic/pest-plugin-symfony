@@ -53,20 +53,39 @@ final class HttpClientTraceValueSame extends Constraint
                 continue;
             }
 
-            if ($this->expectedHeaders) {
-                $actualHeaders = $trace['options']['headers'] ?? [];
-
-                foreach ($this->expectedHeaders as $headerKey => $expectedHeader) {
-                    if (!isset($actualHeaders[$headerKey]) || $expectedHeader !== $actualHeaders[$headerKey]->getValue(true)) {
-                        continue 2;
-                    }
-                }
+            if ($this->expectedHeaders && false === $this->headersMatch($trace)) {
+                continue;
             }
 
             return true;
         }
 
         return false;
+    }
+
+    private function headersMatch(array $trace): bool
+    {
+        $toCheck = $this->expectedHeaders;
+        $actualHeaders = $trace['options']['headers'] ?? [];
+
+        foreach ($actualHeaders as $headerKey => $actualHeader) {
+            if (false === array_key_exists($headerKey, $this->expectedHeaders)) {
+                continue;
+            }
+
+            $header = $actualHeaders[$headerKey];
+            if (is_object($header) && method_exists($header, 'getValue')) {
+                $header = $header->getValue(true);
+            }
+
+            if ($this->expectedHeaders[$headerKey] !== $header) {
+                continue;
+            }
+
+            unset($toCheck[$headerKey]);
+        }
+
+        return 0 === count($toCheck);
     }
 
     private function getBody(array $trace): string|array|null
