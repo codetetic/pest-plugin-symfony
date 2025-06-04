@@ -27,9 +27,9 @@ function getHttpClientDataCollector(): HttpClientDataCollector
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('toHaveHttpClientRequest', function (string $expectedUrl, string $expectedMethod = 'GET', string $httpClientId = 'http_client'): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveHttpClientRequest', function (string $expectedUrl, string $expectedMethod = 'GET', string|array|null $expectedBody = null, array $expectedHeaders = [], string $httpClientId = 'http_client'): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new HttpClientTraceValueSame($expectedUrl, $expectedMethod, $httpClientId));
+            ->toMatchConstraint(new HttpClientTraceValueSame($expectedUrl, $expectedMethod, $expectedBody, $expectedHeaders, $httpClientId));
 
         return test();
     });
