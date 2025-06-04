@@ -13,7 +13,16 @@ use Symfony\Component\HttpClient\DataCollector\HttpClientDataCollector;
 
 function getHttpClientDataCollector(): HttpClientDataCollector
 {
-    return test()->getHttpClientDataCollector();
+    /** @var \Symfony\Bundle\FrameworkBundle\KernelBrowser $client */
+    $client = test()->getClient();
+
+    $profile = $client->getProfile();
+    expect($profile)
+        ->toBeInstanceOf(\Symfony\Component\HttpKernel\Profiler\Profile::class);
+
+    /** @var HttpClientDataCollector $httpClientDataCollector */
+    $httpClientDataCollector = $profile->getCollector('http_client');
+    return $httpClientDataCollector;
 }
 
 function extend(Expectation $expect): void
