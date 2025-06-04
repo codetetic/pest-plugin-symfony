@@ -7,6 +7,7 @@ namespace Pest\Symfony\Web\BrowserKit;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\Constraint\ResponseFormatSame;
 use PHPUnit\Framework\Constraint\LogicalAnd;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,9 +29,9 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveResponseFormat', function (Request $request, ?string $expectedFormat): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveResponseFormat', function (?string $expectedFormat): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new ResponseConstraint\ResponseFormatSame($request, $expectedFormat));
+            ->toMatchConstraint(new ResponseFormatSame($expectedFormat));
 
         return test();
     });

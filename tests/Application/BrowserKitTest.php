@@ -31,7 +31,7 @@ it('can assert ResponseFormatSame', function (): void {
     createClient()->request('GET', '/example');
 
     $this->assertResponseFormatSame('json');
-    expect(getResponse())->toHaveResponseFormat(getRequest(), 'json');
+    expect(getResponse())->toHaveResponseFormat('json');
 });
 
 it('can assert ResponseRedirects', function (): void {
