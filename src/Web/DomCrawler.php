@@ -12,9 +12,15 @@ use Symfony\Component\DomCrawler\Test\Constraint as DomCrawlerConstraint;
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('toHaveSelectorExists', function (string $selector): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveSelector', function (string $selector, string $text = null, bool $strict = false): HigherOrderTapProxy|TestCall {
+        $contraint = match (true) {
+            1 === func_num_args() => new DomCrawlerConstraint\CrawlerSelectorExists($selector),
+            false === $strict => new DomCrawlerConstraint\CrawlerSelectorTextContains($selector, $text),
+            true === $strict => new DomCrawlerConstraint\CrawlerSelectorTextSame($selector, $text),
+        };
+
         expect($this->value)
-            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorExists($selector));
+            ->toMatchConstraint($contraint);
 
         return test();
     });
@@ -26,49 +32,31 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveSelectorTextContains', function (string $selector, string $text): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveAnySelector', function (string $selector, string $text, bool $strict = false): HigherOrderTapProxy|TestCall {
+        $contraint = match ($strict) {
+            false => new DomCrawlerConstraint\CrawlerAnySelectorTextSame($selector, $text),
+            true => new DomCrawlerConstraint\CrawlerAnySelectorTextContains($selector, $text),
+        };
+
         expect($this->value)
-            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextContains($selector, $text));
+            ->toMatchConstraint($contraint);
 
         return test();
     });
 
-    $expect->extend('toHaveAnySelectorTextContains', function (string $selector, string $text): HigherOrderTapProxy|TestCall { // @phpstan-ignore-line
+    $expect->extend('toHaveTitle', function (string $expectedTitle, bool $strict = false): HigherOrderTapProxy|TestCall {
+        $contraint = match ($strict) {
+            false => new DomCrawlerConstraint\CrawlerSelectorTextContains('title', $expectedTitle),
+            true => new DomCrawlerConstraint\CrawlerSelectorTextSame('title', $expectedTitle),
+        };
+
         expect($this->value)
-            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerAnySelectorTextContains($selector, $text));
+            ->toMatchConstraint($contraint);
 
         return test();
     });
 
-    $expect->extend('toHaveSelectorTextSame', function (string $selector, string $text): HigherOrderTapProxy|TestCall {
-        expect($this->value)
-            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextSame($selector, $text));
-
-        return test();
-    });
-
-    $expect->extend('toHaveAnySelectorTextSame', function (string $selector, string $text): HigherOrderTapProxy|TestCall { // @phpstan-ignore-line
-        expect($this->value)
-            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerAnySelectorTextSame($selector, $text));
-
-        return test();
-    });
-
-    $expect->extend('toHavePageTitleSame', function (string $expectedTitle): HigherOrderTapProxy|TestCall {
-        expect($this->value)
-            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextSame('title', $expectedTitle));
-
-        return test();
-    });
-
-    $expect->extend('toHavePageTitleContains', function (string $expectedTitle): HigherOrderTapProxy|TestCall {
-        expect($this->value)
-            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorTextContains('title', $expectedTitle));
-
-        return test();
-    });
-
-    $expect->extend('toHaveInputValueSame', function (string $selector, string $expectedValue): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveInput', function (string $selector, string $expectedValue): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorAttributeValueSame("input[name=\"$selector\"]", 'value', $expectedValue));
 
@@ -82,7 +70,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveFormValue', function (string $formSelector, string $fieldName, string $value): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveFormInput', function (string $formSelector, string $fieldName, string $value): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new DomCrawlerFormValueSame($formSelector, $fieldName, $value));
 

@@ -12,6 +12,7 @@ use PHPUnit\Framework\Constraint\LogicalAnd;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Test\Constraint as ResponseConstraint;
+
 use function Pest\Symfony\Web\getRequest;
 
 function extend(Expectation $expect): void
@@ -58,10 +59,10 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveHeader', function (string $headerName, ?string $expectedValue = null): HigherOrderTapProxy|TestCall {
-        $constraint = new ResponseConstraint\ResponseHasHeader($headerName);
-        if (2 === func_num_args()) {
-            $constraint = new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue);
-        }
+        $constraint = match (func_num_args()) {
+            1 => new ResponseConstraint\ResponseHasHeader($headerName),
+            default => new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue),
+        };
 
         expect($this->value)
             ->toMatchConstraint($constraint);
@@ -70,10 +71,10 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveCookie', function (string $name, ?string $expectedValue = null, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        $constraint = new ResponseConstraint\ResponseHasCookie($name, $path, $domain);
-        if (2 === func_num_args()) {
-            $constraint = new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain);
-        }
+        $constraint = match (func_num_args()) {
+            1 => new ResponseConstraint\ResponseHasCookie($name),
+            default => new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain),
+        };
 
         expect($this->value)
             ->toMatchConstraint($constraint);
@@ -89,13 +90,13 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveBrowserCookie', function (string $name, ?string $expectedValue = null, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        $contraint = new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain);
-        if (2 === func_num_args()) {
-            $contraint = new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain);
-        }
+        $constraint = match (func_num_args()) {
+            1 => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
+            default => new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain),
+        };
 
         expect($this->value)
-            ->toMatchConstraint($contraint);
+            ->toMatchConstraint($constraint);
 
         return test();
     });

@@ -13,7 +13,21 @@ it('can assert SelectorExists', function (): void {
     createClient()->request('GET', '/html');
 
     $this->assertSelectorExists('title');
-    expect(getCrawler())->toHaveSelectorExists('title');
+    expect(getCrawler())->toHaveSelector('title');
+});
+
+it('can assert SelectorTextContains', function (): void {
+    createClient()->request('GET', '/html');
+
+    $this->assertSelectorTextContains('title', 'Wel');
+    expect(getCrawler())->toHaveSelector('title', 'Wel');
+});
+
+it('can assert SelectorTextSame', function (): void {
+    createClient()->request('GET', '/html');
+
+    $this->assertSelectorTextSame('title', 'Welcome!');
+    expect(getCrawler())->toHaveSelector('title', 'Welcome!', strict: true);
 });
 
 it('can assert SelectorCount', function (): void {
@@ -23,53 +37,39 @@ it('can assert SelectorCount', function (): void {
     expect(getCrawler())->toHaveSelectorCount(1, 'title');
 });
 
-it('can assert SelectorTextContains', function (): void {
-    createClient()->request('GET', '/html');
-
-    $this->assertSelectorTextContains('title', 'Welcome!');
-    expect(getCrawler())->toHaveSelectorTextContains('title', 'Welcome!');
-});
-
 it('can assert AnySelectorTextContains', function (): void {
     createClient()->request('GET', '/html');
 
     $this->assertAnySelectorTextContains('title', 'Welcome!');
-    expect(getCrawler())->toHaveAnySelectorTextContains('title', 'Welcome!');
-});
-
-it('can assert SelectorTextSame', function (): void {
-    createClient()->request('GET', '/html');
-
-    $this->assertSelectorTextSame('title', 'Welcome!');
-    expect(getCrawler())->toHaveSelectorTextSame('title', 'Welcome!');
+    expect(getCrawler())->toHaveAnySelector('title', 'Welcome!');
 });
 
 it('can assert AnySelectorTextSame', function (): void {
     createClient()->request('GET', '/html');
 
     $this->assertAnySelectorTextSame('title', 'Welcome!');
-    expect(getCrawler())->toHaveAnySelectorTextSame('title', 'Welcome!');
+    expect(getCrawler())->toHaveAnySelector('title', 'Welcome!', strict: true);
 });
 
 it('can assert PageTitleContains', function (): void {
     createClient()->request('GET', '/html');
 
-    $this->assertPageTitleContains('Welcome!');
-    expect(getCrawler())->toHavePageTitleContains('Welcome!');
+    $this->assertPageTitleContains('Wel');
+    expect(getCrawler())->toHaveTitle('Wel');
 });
 
 it('can assert PageTitleSame', function (): void {
     createClient()->request('GET', '/html');
 
     $this->assertPageTitleSame('Welcome!');
-    expect(getCrawler())->toHavePageTitleSame('Welcome!');
+    expect(getCrawler())->toHaveTitle('Welcome!', strict: true);
 });
 
 it('can assert InputValueSame', function (): void {
     createClient()->request('GET', '/html');
 
     $this->assertInputValueSame('text', 'value');
-    expect(getCrawler())->toHaveInputValueSame('text', 'value');
+    expect(getCrawler())->toHaveInput('text', 'value');
 });
 
 it('can assert CheckboxChecked', function (): void {
@@ -83,5 +83,5 @@ it('can assert FormValue', function (): void {
     createClient()->request('GET', '/html');
 
     $this->assertFormValue('form', 'text', 'value');
-    expect(getCrawler())->toHaveFormValue('form', 'text', 'value');
+    expect(getCrawler())->toHaveFormInput('form', 'text', 'value');
 });
