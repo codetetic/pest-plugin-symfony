@@ -7,6 +7,7 @@ namespace Pest\Symfony\Kernel\Mailer;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\Constraint;
 use Symfony\Component\Mailer\Event\MessageEvent;
 use Symfony\Component\Mailer\Event\MessageEvents;
 use Symfony\Component\Mailer\Test\Constraint as MailerConstraint;
@@ -53,7 +54,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveEmailIsQueued', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('isEmailQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new MailerConstraint\EmailIsQueued());
 
@@ -68,15 +69,25 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveEmailTextBody', function (string $text, bool $strict = false): HigherOrderTapProxy|TestCall {
+        $contraint = match ($strict) {
+            false => new MimeConstraint\EmailTextBodyContains($text),
+            true => new Constraint\EmailTextBodySame($text),
+        };
+
         expect($this->value)
-            ->toMatchConstraint(new MimeConstraint\EmailTextBodyContains($text));
+            ->toMatchConstraint($contraint);
 
         return test();
     });
 
     $expect->extend('toHaveEmailHtmlBody', function (string $text, bool $strict = false): HigherOrderTapProxy|TestCall {
+        $contraint = match ($strict) {
+            false => new MimeConstraint\EmailHtmlBodyContains($text),
+            true => new Constraint\EmailHtmlBodySame($text),
+        };
+
         expect($this->value)
-            ->toMatchConstraint(new MimeConstraint\EmailHtmlBodyContains($text));
+            ->toMatchConstraint($contraint);
 
         return test();
     });

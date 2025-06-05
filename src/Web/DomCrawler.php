@@ -56,7 +56,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveInput', function (string $selector, string $expectedValue): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveInput', function (string $selector, string $expectedValue, bool $strict = false): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorAttributeValueSame("input[name=\"$selector\"]", 'value', $expectedValue));
 
@@ -70,7 +70,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveFormInput', function (string $formSelector, string $fieldName, string $value): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveFormInput', function (string $formSelector, string $fieldName, string $value, bool $strict = false): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new DomCrawlerFormValueSame($formSelector, $fieldName, $value));
 

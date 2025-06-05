@@ -101,7 +101,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveRequestAttribute', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveAttribute', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame($name, $expectedValue));
 

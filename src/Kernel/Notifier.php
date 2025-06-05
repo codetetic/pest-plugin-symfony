@@ -45,28 +45,28 @@ function getNotificationEvents(): NotificationEvents
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('toHaveNotifierCount', function (int $count, ?string $transport = null, bool $queued = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotificationCount', function (int $count, ?string $transport = null, bool $queued = false): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport, $queued));
 
         return test();
     });
 
-    $expect->extend('toHaveNotifierIsQueued', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('isNotificationQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationIsQueued());
 
         return test();
     });
 
-    $expect->extend('toHaveNotifierSubject', function (string $subject, bool $strict = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotificationSubject', function (string $subject, bool $strict = false): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationSubjectContains($subject));
 
         return test();
     });
 
-    $expect->extend('toHaveNotifierTransport', function (?string $transportName = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotificationTransport', function (?string $transportName = null): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationTransportIsEqual($transportName));
 
