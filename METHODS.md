@@ -60,10 +60,22 @@ expect()
     ->toHaveRequestAttribute('key2', 'value2');
 ```
 
-## $this->assert `Symfony\Component\BrowserKit\AbstractBrowser`:
+## Assert `Symfony\Component\BrowserKit\AbstractBrowser`:
 
 | Symfony                                                         | Pest                                                                           |
 | --------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | $this->assertBrowserHasCookie(string $key, string $value)       | expect($client)->toHaveClientCookie(string $key, string $value)                |
 | $this->assertBrowserCookieValueSame(string $key, string $value) | expect($client)->toHaveClientCookie(string $key, string $value)                |
 |                                                                 | expect($client)->toHaveClientCookie(string $key, string $value, strict: false) |
+
+## Assert `Symfony\Component\HttpClient\DataCollector\HttpClientDataCollector`
+
+| Symfony                                                                                              | Pest                                                                                                              |
+| ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| $this->assertHttpClientRequest(string $url)                                                          | expect($collector)->toHaveHttpClientRequest(string $url)                                                          |
+| $this->assertHttpClientRequest(string $url, string $method)                                          | expect($collector)->toHaveHttpClientRequest(string $url, string $method)                                          |
+| $this->assertHttpClientRequest(string $url, string $method, mixed $body)                             | expect($collector)->toHaveHttpClientRequest(string $url, string $method, mixed $body)                             |
+| $this->assertHttpClientRequest(string $url, string $method, mixed $body, array $headers)             | expect($collector)->toHaveHttpClientRequest(string $url, string $method, mixed $body, array $headers)             |
+| $this->assertHttpClientRequest(string $url, string $method, mixed $body, array $headers, string $id) | expect($collector)->toHaveHttpClientRequest(string $url, string $method, mixed $body, array $headers, string $id) |
+| $this->assertHttpClientRequestCount(int $count)                                                      | expect($collector)->toHaveHttpClientRequestCount(int $count)                                                      |
+| $this->assertHttpClientRequestCount(int $count, string $id)                                          | expect($collector)->toHaveHttpClientRequestCount(int $count, string $id)                                          |
