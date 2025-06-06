@@ -52,7 +52,7 @@ it('can assert NotificationCount', function (): void {
 
     $this->assertNotificationCount(0);
     expect(getNotificationEvents())
-        ->toHaveNotifierCount(0, queued: false);
+        ->toHaveNotificationCount(0, queued: false);
 });
 
 it('can assert QueuedNotificationCount', function (): void {
@@ -60,7 +60,7 @@ it('can assert QueuedNotificationCount', function (): void {
 
     $this->assertQueuedNotificationCount(1);
     expect(getNotificationEvents())
-        ->toHaveNotifierCount(1, queued: true);
+        ->toHaveNotificationCount(1, queued: true);
 });
 
 it('can assert NotificationIsQueued', function (): void {
@@ -68,7 +68,7 @@ it('can assert NotificationIsQueued', function (): void {
 
     $this->assertNotificationIsQueued(getEvent());
     expect(getEvent())
-        ->toHaveNotifierIsQueued();
+        ->isNotificationQueued();
 });
 
 it('can assert NotificationSubjectContains', function (): void {
@@ -76,7 +76,7 @@ it('can assert NotificationSubjectContains', function (): void {
 
     $this->assertNotificationSubjectContains(getMessage(), 'subject');
     expect(getMessage())
-        ->toHaveNotifierSubject('subject');
+        ->toHaveNotificationSubject('subject');
 });
 
 it('can assert NotificationTransportIsEqual', function (): void {
@@ -84,5 +84,5 @@ it('can assert NotificationTransportIsEqual', function (): void {
 
     $this->assertNotificationTransportIsEqual(getMessage(), null);
     expect(getMessage())
-        ->toHaveNotifierTransport(null);
+        ->toHaveNotificationTransport(null);
 });

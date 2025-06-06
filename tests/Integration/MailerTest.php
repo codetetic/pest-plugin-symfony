@@ -71,7 +71,7 @@ it('can assert EmailIsQueued', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     expect(getEvent())
-        ->toHaveEmailIsQueued();
+        ->isEmailQueued();
 });
 
 it('can assert EmailAttachmentCount', function (): void {

@@ -89,7 +89,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveBrowserCookie', function (string $name, ?string $expectedValue = null, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveClientCookie', function (string $name, ?string $expectedValue = null, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
         $constraint = match (func_num_args()) {
             1 => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
             default => new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain),
@@ -101,20 +101,17 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveAttribute', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveRequestAttribute', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame($name, $expectedValue));
 
         return test();
     });
 
-    $expect->extend('toHaveRoute', function (string $expectedRoute, array $parameters = []): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveRequestRoute', function (string $expectedRoute): HigherOrderTapProxy|TestCall {
         $constraints = [
             new ResponseConstraint\RequestAttributeValueSame('_route', $expectedRoute),
         ];
-        foreach ($parameters as $key => $value) {
-            $constraints[] = new ResponseConstraint\RequestAttributeValueSame($key, $value);
-        }
 
         expect($this->value)
             ->toMatchConstraint(LogicalAnd::fromConstraints(...$constraints));
