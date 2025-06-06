@@ -80,14 +80,14 @@ it('can assert BrowserHasCookie', function (): void {
     createClient()->request('GET', '/cookie');
 
     $this->assertBrowserHasCookie('name');
-    expect(getClient())->toHaveBrowserCookie('name');
+    expect(getClient())->toHaveClientCookie('name');
 });
 
 it('can assert BrowserCookieValueSame', function (): void {
     createClient()->request('GET', '/cookie');
 
     $this->assertBrowserCookieValueSame('name', 'value');
-    expect(getClient())->toHaveBrowserCookie('name', 'value');
+    expect(getClient())->toHaveClientCookie('name', 'value');
 });
 
 it('can assert RequestAttributeValueSame', function (): void {
@@ -101,5 +101,5 @@ it('can assert RouteSame', function (): void {
     createClient()->request('GET', '/example');
 
     $this->assertRouteSame('app_example');
-    expect(getRequest())->toHaveRoute('app_example');
+    expect(getRequest())->toHaveRequestRoute('app_example');
 });

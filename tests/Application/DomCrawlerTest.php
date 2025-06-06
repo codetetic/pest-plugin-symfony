@@ -34,7 +34,7 @@ it('can assert SelectorCount', function (): void {
     createClient()->request('GET', '/html');
 
     $this->assertSelectorCount(1, 'title');
-    expect(getCrawler())->toHaveSelectorCount(1, 'title');
+    expect(getCrawler())->toHaveSelectorCount('title', 1);
 });
 
 it('can assert AnySelectorTextContains', function (): void {

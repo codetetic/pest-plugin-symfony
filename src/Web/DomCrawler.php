@@ -25,9 +25,9 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveSelectorCount', function (int $expectedCount, string $selector): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveSelectorCount', function (string $selector, int $count): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorCount($expectedCount, $selector));
+            ->toMatchConstraint(new DomCrawlerConstraint\CrawlerSelectorCount($count, $selector));
 
         return test();
     });
