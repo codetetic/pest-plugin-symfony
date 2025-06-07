@@ -7,8 +7,8 @@ For any `Not` asserts in Symfony use `expect()-not->isSuccessful()`
 
 | Symfony                                                          | Pest                                                                       |
 | ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| $this->assertResponseIsSuccessful()                              | expect($response)->isSuccessful()                                          |
-| $this->assertResponseIsUnprocessable()                           | expect($response)->isUnprocessable()                                       |
+| $this->assertResponseIsSuccessful()                              | expect($response)->toBeSuccessful()                                          |
+| $this->assertResponseIsUnprocessable()                           | expect($response)->toBeUnprocessable()                                       |
 | $this->assertResponseStatusCodeSame(int $code)                   | expect($response)->toHaveStatusCode(int $code)                             |
 | $this->assertResponseFormatSame(string $format)                  | expect($response)->toHaveFormat(string $format)                            |
 | $this->assertResponseRedirects(string $location)                 | expect($response)->toHaveRedirect(string $location)                        |
@@ -79,3 +79,33 @@ expect()
 | $this->assertHttpClientRequest(string $url, string $method, mixed $body, array $headers, string $id) | expect($collector)->toHaveHttpClientRequest(string $url, string $method, mixed $body, array $headers, string $id) |
 | $this->assertHttpClientRequestCount(int $count)                                                      | expect($collector)->toHaveHttpClientRequestCount(int $count)                                                      |
 | $this->assertHttpClientRequestCount(int $count, string $id)                                          | expect($collector)->toHaveHttpClientRequestCount(int $count, string $id)                                          |
+
+## Assert `Symfony\Component\Mailer\Event\MessageEvents`
+
+| Symfony                                  | Pest                                                                           |
+| ---------------------------------------- | ----------------------------------------------------------- |
+| $this->assertEmailCount(int $count)      | expect($events)->toHaveEmailCount(int $count)               |
+| this->assertQueuedEmailCount(int $count) | expect($events)->toHaveEmailCount(int $count, queued: true) |
+
+## Assert `Symfony\Component\Mailer\Event\MessageEvent`
+
+| Symfony                            | Pest                              |
+| ---------------------------------- | --------------------------------- |
+| $this->assertEmailIsQueued($event) | expect($event)->toBeEmailQueued() |
+
+## Assert `Symfony\Component\Mime\RawMessage`
+
+| Symfony                                                                 | Pest                                                                            |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| $this->assertEmailAttachmentCount($message, int $count)                 | expect($message)->toHaveEmailAttachmentCount(int $count)                        |
+|                                                                         | expect($message)->toHaveEmailTextBody(string $value)                            |
+| $this->assertEmailTextBodyContains($message, string $value)             | expect($message)->toHaveEmailTextBody(string $value, strict: false)             |
+|                                                                         | expect($message)->toHaveEmailHtmlBody(string $value)                            |
+| $this->assertEmailHtmlBodyContains($message, string $value)             | expect($message)->toHaveEmailHtmlBody(string $value, strict: false)             |
+| $this->assertEmailHasHeader($message, string $key)                      | expect($message)->toHaveEmailHeader(string $key)                                |
+| $this->assertEmailHeaderSame($message, string $key, string $value)      | expect($message)->toHaveEmailHeader(string $key, string $value)                 |
+|                                                                         | expect($message)->toHaveEmailHeader(string $key, string $value, strict: false)  |
+| $this->assertEmailAddressContains($message, string $key, string $value) | expect($message)->toHaveEmailAddress(string $key, string $value)                |
+|                                                                         | expect($message)->toHaveEmailAddress(string $key, string $value, strict: false) |
+|                                                                         | expect($message)->toHaveEmailSubject(string $value)                             |
+| $this->assertEmailSubjectContains($message, string $value)              | expect($message)->toHaveEmailSubject(string $value, strict: false)              |
