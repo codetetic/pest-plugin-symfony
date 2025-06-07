@@ -1,14 +1,14 @@
 
-# $this->assert method reference
+# Assert method mapping
 
 For any `Not` asserts in Symfony use `expect()-not->isSuccessful()`
 
-## $this->assert `Symfony\Component\HttpFoundation\Response`:
+## Assert `Symfony\Component\HttpFoundation\Response`:
 
 | Symfony                                                          | Pest                                                                       |
 | ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| $this->assertResponseIsSuccessful()                              | expect($response)->toBeSuccessful()                                          |
-| $this->assertResponseIsUnprocessable()                           | expect($response)->toBeUnprocessable()                                       |
+| $this->assertResponseIsSuccessful()                              | expect($response)->toBeSuccessful()                                        |
+| $this->assertResponseIsUnprocessable()                           | expect($response)->toBeUnprocessable()                                     |
 | $this->assertResponseStatusCodeSame(int $code)                   | expect($response)->toHaveStatusCode(int $code)                             |
 | $this->assertResponseFormatSame(string $format)                  | expect($response)->toHaveFormat(string $format)                            |
 | $this->assertResponseRedirects(string $location)                 | expect($response)->toHaveRedirect(string $location)                        |
