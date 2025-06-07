@@ -105,8 +105,8 @@ expect()
 | $this->assertEmailHasHeader($message, string $key)                      | expect($message)->toHaveEmailHeader(string $key)                                |
 | $this->assertEmailHeaderSame($message, string $key, string $value)      | expect($message)->toHaveEmailHeader(string $key, string $value)                 |
 |                                                                         | expect($message)->toHaveEmailHeader(string $key, string $value, strict: false)  |
-| $this->assertEmailAddressContains($message, string $key, string $value) | expect($message)->toHaveEmailAddress(string $key, string $value)                |
-|                                                                         | expect($message)->toHaveEmailAddress(string $key, string $value, strict: false) |
+|                                                                         | expect($message)->toHaveEmailAddress(string $key, string $value)                |
+| $this->assertEmailAddressContains($message, string $key, string $value) | expect($message)->toHaveEmailAddress(string $key, string $value, strict: false) |
 |                                                                         | expect($message)->toHaveEmailSubject(string $value)                             |
 | $this->assertEmailSubjectContains($message, string $value)              | expect($message)->toHaveEmailSubject(string $value, strict: false)              |
 
