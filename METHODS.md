@@ -109,3 +109,24 @@ expect()
 |                                                                         | expect($message)->toHaveEmailAddress(string $key, string $value, strict: false) |
 |                                                                         | expect($message)->toHaveEmailSubject(string $value)                             |
 | $this->assertEmailSubjectContains($message, string $value)              | expect($message)->toHaveEmailSubject(string $value, strict: false)              |
+
+## Assert `Symfony\Component\Notifier\Event\NotificationEvents`
+
+| Symfony                                 | Pest                                                               |
+| ----------------------------------------| ------------------------------------------------------------------ |
+| $this->assertNotificationCount(0)       | expect($events)->toHaveNotificationCount(int $count)               |
+| $this->assertQueuedNotificationCount(1) | expect($events)->toHaveNotificationCount(int $count, queued: true) |
+
+## Assert `Symfony\Component\Notifier\Event\MessageEvent`
+
+| Symfony                                   | Pest                                     |
+| ----------------------------------------- | ---------------------------------------- |
+| $this->assertNotificationIsQueued($event) | expect($event)->toBeNotificationQueued() |
+
+## Assert `Symfony\Component\Notifier\Message\MessageInterface`
+
+| Symfony                                                                 | Pest                                                                      |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+|                                                                         | expect($message)->toHaveNotificationSubject(string $value)                |
+| $this->assertNotificationSubjectContains($message, string $value)       | expect($message)->toHaveNotificationSubject(string $value, strict: false) |
+| $this->assertNotificationTransportIsEqual($message, string $value)      | expect($message)->toHaveNotificationTransport(string $value)              |
