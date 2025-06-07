@@ -68,7 +68,7 @@ it('can assert NotificationIsQueued', function (): void {
 
     $this->assertNotificationIsQueued(getEvent());
     expect(getEvent())
-        ->isNotificationQueued();
+        ->toBeNotificationQueued();
 });
 
 it('can assert NotificationSubjectContains', function (): void {

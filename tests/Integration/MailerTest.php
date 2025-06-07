@@ -72,7 +72,7 @@ it('can assert EmailIsQueued', function (): void {
 
     $this->assertEmailIsQueued(getEvent());
     expect(getEvent())
-        ->isEmailQueued();
+        ->toBeEmailQueued();
 });
 
 it('can assert EmailAttachmentCount', function (): void {

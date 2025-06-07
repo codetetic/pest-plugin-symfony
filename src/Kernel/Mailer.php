@@ -54,7 +54,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('isEmailQueued', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('toBeEmailQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new MailerConstraint\EmailIsQueued());
 

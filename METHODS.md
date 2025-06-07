@@ -1,7 +1,7 @@
 
 # Assert method mapping
 
-For any `Not` asserts in Symfony use `expect()-not->isSuccessful()`
+For any `Not` asserts in Symfony use `expect()-not->toBeSuccessful()`
 
 ## Assert `Symfony\Component\HttpFoundation\Response`:
 

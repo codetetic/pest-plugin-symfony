@@ -17,7 +17,7 @@ use function Pest\Symfony\Web\getRequest;
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('isSuccessful', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('toBeSuccessful', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\ResponseIsSuccessful());
 
@@ -82,7 +82,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('isUnprocessable', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('toBeUnprocessable', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\ResponseIsUnprocessable());
 

@@ -52,7 +52,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('isNotificationQueued', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('toBeNotificationQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationIsQueued());
 

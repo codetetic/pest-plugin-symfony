@@ -9,7 +9,7 @@ it('can chain assert', function (): void {
     createClient()->request('GET', '/example');
 
     expect(getResponse())
-        ->isSuccessful()
+        ->toBeSuccessful()
         ->toHaveStatusCode(200);
 });
 
@@ -17,7 +17,7 @@ it('can assert ResponseIsSuccessful', function (): void {
     createClient()->request('GET', '/example');
 
     $this->assertResponseIsSuccessful();
-    expect(getResponse())->isSuccessful();
+    expect(getResponse())->toBeSuccessful();
 });
 
 it('can assert ResponseStatusCodeSame', function (): void {
@@ -73,7 +73,7 @@ it('can assert ResponseIsUnprocessable', function (): void {
     createClient()->request('GET', '/unprocessable');
 
     $this->assertResponseIsUnprocessable();
-    expect(getResponse())->isUnprocessable();
+    expect(getResponse())->toBeUnprocessable();
 });
 
 it('can assert BrowserHasCookie', function (): void {
