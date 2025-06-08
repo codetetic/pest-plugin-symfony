@@ -64,7 +64,7 @@ expect()
 
 | Symfony                                                         | Pest                                                                           |
 | --------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| $this->assertBrowserHasCookie(string $key, string $value)       | expect($client)->toHaveClientCookie(string $key, string $value)                |
+| $this->assertBrowserHasCookie(string $key)                      | expect($client)->toHaveClientCookie(string $key)                               |
 | $this->assertBrowserCookieValueSame(string $key, string $value) | expect($client)->toHaveClientCookie(string $key, string $value)                |
 |                                                                 | expect($client)->toHaveClientCookie(string $key, string $value, strict: false) |
 

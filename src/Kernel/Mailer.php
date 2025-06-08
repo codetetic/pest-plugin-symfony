@@ -68,7 +68,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveEmailTextBody', function (string $text, bool $strict = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveEmailTextBody', function (string $text, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match ($strict) {
             false => new MimeConstraint\EmailTextBodyContains($text),
             true => new Constraint\EmailTextBodySame($text),
@@ -80,7 +80,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveEmailHtmlBody', function (string $text, bool $strict = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveEmailHtmlBody', function (string $text, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match ($strict) {
             false => new MimeConstraint\EmailHtmlBodyContains($text),
             true => new Constraint\EmailHtmlBodySame($text),
@@ -92,7 +92,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveEmailHeader', function (string $headerName, string $expectedValue = null, bool $strict = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveEmailHeader', function (string $headerName, string $expectedValue = null, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match (true) {
             1 === func_num_args() => new MimeConstraint\EmailHasHeader($headerName),
             default => new MimeConstraint\EmailHeaderSame($headerName, $expectedValue),
@@ -104,14 +104,14 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveEmailAddress', function (string $headerName, string $expectedValue, bool $strict = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveEmailAddress', function (string $headerName, string $expectedValue, bool $strict = true): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new MimeConstraint\EmailAddressContains($headerName, $expectedValue));
 
         return test();
     });
 
-    $expect->extend('toHaveEmailSubject', function (string $expectedValue, bool $strict = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveEmailSubject', function (string $expectedValue, bool $strict = true): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new MimeConstraint\EmailSubjectContains($expectedValue));
 

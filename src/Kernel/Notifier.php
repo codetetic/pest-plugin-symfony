@@ -59,7 +59,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveNotificationSubject', function (string $subject, bool $strict = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotificationSubject', function (string $subject, bool $strict = true): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new NotifierConstraint\NotificationSubjectContains($subject));
 

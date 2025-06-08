@@ -94,9 +94,9 @@ it('can assert EmailTextBodyContains', function (): void {
 it('can assert EmailHtmlBodyContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
-    $this->assertEmailHtmlBodyContains(getMessage(), 'html');
+    $this->assertEmailHtmlBodyContains(getMessage(), '<p>html</p>');
     expect(getMessage())
-        ->toHaveEmailHtmlBody('html');
+        ->toHaveEmailHtmlBody('<p>html</p>');
 });
 
 it('can assert EmailHasHeader', function (): void {

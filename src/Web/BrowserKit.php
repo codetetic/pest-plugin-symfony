@@ -24,32 +24,32 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveStatusCode', function (int $expectedCode): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveStatusCode', function (int $code): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new ResponseConstraint\ResponseStatusCodeSame($expectedCode));
+            ->toMatchConstraint(new ResponseConstraint\ResponseStatusCodeSame($code));
 
         return test();
     });
 
-    $expect->extend('toHaveFormat', function (?string $expectedFormat): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveFormat', function (?string $format): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new ResponseFormatSame($expectedFormat));
+            ->toMatchConstraint(new ResponseFormatSame($format));
 
         return test();
     });
 
-    $expect->extend('toHaveRedirect', function (?string $expectedLocation = null, ?int $expectedCode = null, Request $request = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveRedirect', function (?string $location = null, ?int $code = null, Request $request = null): HigherOrderTapProxy|TestCall {
         $constraints = [
             new ResponseConstraint\ResponseIsRedirected(),
         ];
-        if ($expectedLocation) {
+        if ($location !== null) {
             if ($request === null) {
                 $request = getRequest();
             }
-            $constraints[] = new ResponseConstraint\ResponseHeaderLocationSame($request, $expectedLocation);
+            $constraints[] = new ResponseConstraint\ResponseHeaderLocationSame($request, $location);
         }
-        if ($expectedCode) {
-            $constraints[] = new ResponseConstraint\ResponseStatusCodeSame($expectedCode);
+        if ($code !== null) {
+            $constraints[] = new ResponseConstraint\ResponseStatusCodeSame($code);
         }
 
         expect($this->value)
@@ -58,10 +58,10 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveHeader', function (string $headerName, ?string $expectedValue = null): HigherOrderTapProxy|TestCall {
-        $constraint = match (func_num_args()) {
-            1 => new ResponseConstraint\ResponseHasHeader($headerName),
-            default => new ResponseConstraint\ResponseHeaderSame($headerName, $expectedValue),
+    $expect->extend('toHaveHeader', function (string $key, ?string $value = null, bool $strict = true): HigherOrderTapProxy|TestCall {
+        $constraint = match (true) {
+            func_num_args() === 1  => new ResponseConstraint\ResponseHasHeader($key),
+            func_get_args() > 1 && $strict === true => new ResponseConstraint\ResponseHeaderSame($key, $value),
         };
 
         expect($this->value)
@@ -70,10 +70,10 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveCookie', function (string $name, ?string $expectedValue = null, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        $constraint = match (func_num_args()) {
-            1 => new ResponseConstraint\ResponseHasCookie($name),
-            default => new ResponseConstraint\ResponseCookieValueSame($name, $expectedValue, $path, $domain),
+    $expect->extend('toHaveCookie', function (string $key, ?string $value = null, string $path = '/', ?string $domain = null, bool $strict = true): HigherOrderTapProxy|TestCall {
+        $constraint = match (true) {
+            func_num_args() === 1 => new ResponseConstraint\ResponseHasCookie($key),
+            func_get_args() > 1 && $strict === true => new ResponseConstraint\ResponseCookieValueSame($key, $value, $path, $domain),
         };
 
         expect($this->value)
@@ -89,10 +89,10 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveClientCookie', function (string $name, ?string $expectedValue = null, bool $raw = false, string $path = '/', ?string $domain = null): HigherOrderTapProxy|TestCall {
-        $constraint = match (func_num_args()) {
-            1 => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
-            default => new BrowserKitConstraint\BrowserCookieValueSame($name, $expectedValue, $raw, $path, $domain),
+    $expect->extend('toHaveClientCookie', function (string $name, ?string $value = null, bool $raw = false, string $path = '/', ?string $domain = null, bool $strict = true): HigherOrderTapProxy|TestCall {
+        $constraint = match (true) {
+            func_num_args() === 1 => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
+            func_get_args() > 1 && $strict === true => new BrowserKitConstraint\BrowserCookieValueSame($name, $value, $raw, $path, $domain),
         };
 
         expect($this->value)
@@ -101,20 +101,16 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveRequestAttribute', function (string $name, string $expectedValue): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveRequestAttribute', function (string $name, string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame($name, $expectedValue));
+            ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame($name, $value));
 
         return test();
     });
 
-    $expect->extend('toHaveRequestRoute', function (string $expectedRoute): HigherOrderTapProxy|TestCall {
-        $constraints = [
-            new ResponseConstraint\RequestAttributeValueSame('_route', $expectedRoute),
-        ];
-
+    $expect->extend('toHaveRequestRoute', function (string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(LogicalAnd::fromConstraints(...$constraints));
+            ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame('_route', $value));
 
         return test();
     });
