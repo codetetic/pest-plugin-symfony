@@ -5,19 +5,19 @@ For any `Not` asserts in Symfony use `expect()-not->toBeSuccessful()`
 
 ## Assert `Symfony\Component\HttpFoundation\Response`:
 
-| Symfony                                                          | Pest                                                                       |
-| ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| $this->assertResponseIsSuccessful()                              | expect($response)->toBeSuccessful()                                        |
-| $this->assertResponseIsUnprocessable()                           | expect($response)->toBeUnprocessable()                                     |
-| $this->assertResponseStatusCodeSame(int $code)                   | expect($response)->toHaveStatusCode(int $code)                             |
-| $this->assertResponseFormatSame(string $format)                  | expect($response)->toHaveFormat(string $format)                            |
-| $this->assertResponseRedirects(string $location)                 | expect($response)->toHaveRedirect(string $location)                        |
-| $this->assertResponseHasHeader(string $key)                      | expect($response)->toHaveHeader(string $key)                               |
-| $this->assertResponseHeaderSame(string $key, string $value)      | expect($response)->toHaveHeader(string $key, string $value)                |
-|                                                                  | expect($response)->toHaveHeader(string $key, string $value, strict: false) |
-| $this->assertResponseHasCookie(string $key)                      | expect($response)->toHaveCookie(string $key)                               |
-| $this->assertResponseCookieValueSame(string $key, string $value) | expect($response)->toHaveCookie(string $key, string $value)                |
-|                                                                  | expect($response)->toHaveCookie(string $key, string $value, strict: false) |
+| Symfony                                                                                                      | Pest                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| $this->assertResponseIsSuccessful()                                                                          | expect($response)->toBeSuccessful()                                                                                    |
+| $this->assertResponseIsUnprocessable()                                                                       | expect($response)->toBeUnprocessable()                                                                                 |
+| $this->assertResponseStatusCodeSame(int $code)                                                               | expect($response)->toHaveStatusCode(int $code)                                                                         |
+| $this->assertResponseFormatSame(string $format)                                                              | expect($response)->toHaveFormat(string $format)                                                                        |
+| $this->assertResponseRedirects(string $location)                                                             | expect($response)->toHaveRedirect(string $location)                                                                    |
+| $this->assertResponseHasHeader(string $key)                                                                  | expect($response)->toHaveHeader(string $key)                                                                           |
+| $this->assertResponseHeaderSame(string $key, string $value)                                                  | expect($response)->toHaveHeader(string $key, string $value)                                                            |
+|                                                                                                              | expect($response)->toHaveHeader(string $key, string $value, strict: false)                                             |
+| $this->assertResponseHasCookie(string $key, string $path = '/', ?string $domain = null)                      | expect($response)->toHaveCookie(string $key, string $path = '/', ?string $domain = null)                               |
+| $this->assertResponseCookieValueSame(string $key, string $value, string $path = '/', ?string $domain = null) | expect($response)->toHaveCookie(string $key, string $value, string $path = '/', ?string $domain = null)                |
+|                                                                                                              | expect($response)->toHaveCookie(string $key, string $value, string $path = '/', ?string $domain = null, strict: false) |
 
 ## Asset `Symfony\Component\DomCrawler\Crawler`:
 
@@ -62,11 +62,15 @@ expect()
 
 ## Assert `Symfony\Component\BrowserKit\AbstractBrowser`:
 
-| Symfony                                                         | Pest                                                                           |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| $this->assertBrowserHasCookie(string $key)                      | expect($client)->toHaveClientCookie(string $key)                               |
-| $this->assertBrowserCookieValueSame(string $key, string $value) | expect($client)->toHaveClientCookie(string $key, string $value)                |
-|                                                                 | expect($client)->toHaveClientCookie(string $key, string $value, strict: false) |
+| Symfony                                                                                                                        | Pest                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| $this->assertBrowserHasCookie(string $key, string $path = '/', ?string $domain = null)                                         | expect($client)->toHaveClientCookie(string $key, string $path = '/', ?string $domain = null)                                                  |
+| $this->assertBrowserCookieValueSame(string $key, string $value, bool $raw = false, string $path = '/', ?string $domain = null) | expect($client)->toHaveClientCookie(string $key, string $value, string $path = '/', ?string $domain = null, bool $raw = false)                |
+|                                                                                                                                | expect($client)->toHaveClientCookie(string $key, string $value, string $path = '/', ?string $domain = null, bool $raw = false, strict: false) |
+
+### Notes
+
+Swap of `bool $raw = false, string $path = '/', ?string $domain = null` to `string $path = '/', ?string $domain = null, bool $raw = false`
 
 ## Assert `Symfony\Component\HttpClient\DataCollector\HttpClientDataCollector`
 
