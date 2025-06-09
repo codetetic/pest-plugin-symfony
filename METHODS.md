@@ -11,13 +11,17 @@ For any `Not` asserts in Symfony use `expect()-not->toBeSuccessful()`
 | $this->assertResponseIsUnprocessable()                                                                       | expect($response)->toBeUnprocessable()                                                                                 |
 | $this->assertResponseStatusCodeSame(int $code)                                                               | expect($response)->toHaveStatusCode(int $code)                                                                         |
 | $this->assertResponseFormatSame(string $format)                                                              | expect($response)->toHaveFormat(string $format)                                                                        |
-| $this->assertResponseRedirects(string $location)                                                             | expect($response)->toHaveRedirect(string $location)                                                                    |
+| $this->assertResponseRedirects(string $location, ?int $code = null)                                          | expect($response)->toHaveRedirect(string $location, ?int $code = null, ?Request $request = null)                       |
 | $this->assertResponseHasHeader(string $key)                                                                  | expect($response)->toHaveHeader(string $key)                                                                           |
 | $this->assertResponseHeaderSame(string $key, string $value)                                                  | expect($response)->toHaveHeader(string $key, string $value)                                                            |
 |                                                                                                              | expect($response)->toHaveHeader(string $key, string $value, strict: false)                                             |
 | $this->assertResponseHasCookie(string $key, string $path = '/', ?string $domain = null)                      | expect($response)->toHaveCookie(string $key, string $path = '/', ?string $domain = null)                               |
 | $this->assertResponseCookieValueSame(string $key, string $value, string $path = '/', ?string $domain = null) | expect($response)->toHaveCookie(string $key, string $value, string $path = '/', ?string $domain = null)                |
 |                                                                                                              | expect($response)->toHaveCookie(string $key, string $value, string $path = '/', ?string $domain = null, strict: false) |
+
+### Notes
+
+See `(string $location, ?int $code = null)` to `(string $location, ?int $code = null, ?Request $request = null)` change when asserting redirects.
 
 ## Asset `Symfony\Component\DomCrawler\Crawler`:
 
