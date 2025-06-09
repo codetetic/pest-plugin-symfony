@@ -20,6 +20,13 @@ it('can assert ResponseIsSuccessful', function (): void {
     expect(getResponse())->toBeSuccessful();
 });
 
+it('can assert ResponseIsUnprocessable', function (): void {
+    createClient()->request('GET', '/unprocessable');
+
+    $this->assertResponseIsUnprocessable();
+    expect(getResponse())->toBeUnprocessable();
+});
+
 it('can assert ResponseStatusCodeSame', function (): void {
     createClient()->request('GET', '/example');
 
@@ -53,6 +60,7 @@ it('can assert ResponseHeaderSame', function (): void {
 
     $this->assertResponseHeaderSame('Content-Type', 'application/json');
     expect(getResponse())->toHaveHeader('Content-Type', 'application/json');
+    expect(getResponse())->toHaveHeader('Content-Type', 'application/', strict: false);
 });
 
 it('can assert ResponseHasCookie', function (): void {
@@ -67,13 +75,7 @@ it('can assert ResponseCookieValueSame', function (): void {
 
     $this->assertResponseCookieValueSame('name', 'value');
     expect(getResponse())->toHaveCookie('name', 'value');
-});
-
-it('can assert ResponseIsUnprocessable', function (): void {
-    createClient()->request('GET', '/unprocessable');
-
-    $this->assertResponseIsUnprocessable();
-    expect(getResponse())->toBeUnprocessable();
+    expect(getResponse())->toHaveCookie('name', 'val', strict: false);
 });
 
 it('can assert BrowserHasCookie', function (): void {
@@ -88,6 +90,7 @@ it('can assert BrowserCookieValueSame', function (): void {
 
     $this->assertBrowserCookieValueSame('name', 'value');
     expect(getClient())->toHaveClientCookie('name', 'value');
+    expect(getClient())->toHaveClientCookie('name', 'val', strict: false);
 });
 
 it('can assert RequestAttributeValueSame', function (): void {

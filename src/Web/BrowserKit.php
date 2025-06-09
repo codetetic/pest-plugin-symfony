@@ -7,7 +7,7 @@ namespace Pest\Symfony\Web\BrowserKit;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
-use Pest\Symfony\Constraint\ResponseFormatSame;
+use Pest\Symfony\Constraint;
 use PHPUnit\Framework\Constraint\LogicalAnd;
 use Symfony\Component\BrowserKit\Test\Constraint as BrowserKitConstraint;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +24,13 @@ function extend(Expectation $expect): void
         return test();
     });
 
+    $expect->extend('toBeUnprocessable', function (): HigherOrderTapProxy|TestCall {
+        expect($this->value)
+            ->toMatchConstraint(new ResponseConstraint\ResponseIsUnprocessable());
+
+        return test();
+    });
+
     $expect->extend('toHaveStatusCode', function (int $code): HigherOrderTapProxy|TestCall {
         expect($this->value)
             ->toMatchConstraint(new ResponseConstraint\ResponseStatusCodeSame($code));
@@ -33,7 +40,7 @@ function extend(Expectation $expect): void
 
     $expect->extend('toHaveFormat', function (?string $format): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new ResponseFormatSame($format));
+            ->toMatchConstraint(new Constraint\ResponseFormatSame($format));
 
         return test();
     });
@@ -62,6 +69,7 @@ function extend(Expectation $expect): void
         $constraint = match (true) {
             func_num_args() === 1  => new ResponseConstraint\ResponseHasHeader($key),
             func_get_args() > 1 && $strict === true => new ResponseConstraint\ResponseHeaderSame($key, $value),
+            func_get_args() > 1 && $strict === false => new Constraint\ResponseHeaderContains($key, $value),
         };
 
         expect($this->value)
@@ -74,6 +82,7 @@ function extend(Expectation $expect): void
         $constraint = match (true) {
             func_num_args() === 1 => new ResponseConstraint\ResponseHasCookie($key),
             func_get_args() > 1 && $strict === true => new ResponseConstraint\ResponseCookieValueSame($key, $value, $path, $domain),
+            func_get_args() > 1 && $strict === false => new Constraint\ResponseCookieValueContains($key, $value, $path, $domain),
         };
 
         expect($this->value)
@@ -82,17 +91,12 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toBeUnprocessable', function (): HigherOrderTapProxy|TestCall {
-        expect($this->value)
-            ->toMatchConstraint(new ResponseConstraint\ResponseIsUnprocessable());
-
-        return test();
-    });
 
     $expect->extend('toHaveClientCookie', function (string $name, ?string $value = null, bool $raw = false, string $path = '/', ?string $domain = null, bool $strict = true): HigherOrderTapProxy|TestCall {
         $constraint = match (true) {
             func_num_args() === 1 => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
             func_get_args() > 1 && $strict === true => new BrowserKitConstraint\BrowserCookieValueSame($name, $value, $raw, $path, $domain),
+            func_get_args() > 1 && $strict === false => new Constraint\BrowserCookieValueContains($name, $value, $raw, $path, $domain),
         };
 
         expect($this->value)
