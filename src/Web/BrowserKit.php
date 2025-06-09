@@ -106,15 +106,25 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveRequestAttribute', function (string $name, string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
+        $constraint = match ($strict) {
+            true => new ResponseConstraint\RequestAttributeValueSame($name, $value),
+            // false =>
+        };
+
         expect($this->value)
-            ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame($name, $value));
+            ->toMatchConstraint($constraint);
 
         return test();
     });
 
     $expect->extend('toHaveRequestRoute', function (string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
+        $constraint = match ($strict) {
+            true => new ResponseConstraint\RequestAttributeValueSame('_route', $value),
+            // false =>
+        };
+
         expect($this->value)
-            ->toMatchConstraint(new ResponseConstraint\RequestAttributeValueSame('_route', $value));
+            ->toMatchConstraint($constraint);
 
         return test();
     });
