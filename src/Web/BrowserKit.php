@@ -66,10 +66,12 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveHeader', function (string $key, ?string $value = null, bool $strict = true): HigherOrderTapProxy|TestCall {
-        $constraint = match (true) {
-            1 === func_num_args() => new ResponseConstraint\ResponseHasHeader($key),
-            func_get_args() > 1 && true === $strict => new ResponseConstraint\ResponseHeaderSame($key, $value),
-            func_get_args() > 1 && false === $strict => new Constraint\ResponseHeaderContains($key, $value),
+        $constraint = match (func_num_args()) {
+            1 => new ResponseConstraint\ResponseHasHeader($key),
+            2, 3 => match ($strict) {
+                true => new ResponseConstraint\ResponseHeaderSame($key, $value),
+                false => new Constraint\ResponseHeaderContains($key, $value),
+            },
         };
 
         expect($this->value)
@@ -79,10 +81,12 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveCookie', function (string $key, ?string $value = null, string $path = '/', ?string $domain = null, bool $strict = true): HigherOrderTapProxy|TestCall {
-        $constraint = match (true) {
-            1 === func_num_args() => new ResponseConstraint\ResponseHasCookie($key),
-            func_get_args() > 1 && true === $strict => new ResponseConstraint\ResponseCookieValueSame($key, $value, $path, $domain),
-            func_get_args() > 1 && false === $strict => new Constraint\ResponseCookieValueContains($key, $value, $path, $domain),
+        $constraint = match (func_num_args()) {
+            1 => new ResponseConstraint\ResponseHasCookie($key),
+            2, 3, 4, 5 => match ($strict) {
+                true => new ResponseConstraint\ResponseCookieValueSame($key, $value, $path, $domain),
+                false => new Constraint\ResponseCookieValueContains($key, $value, $path, $domain),
+            },
         };
 
         expect($this->value)
@@ -92,10 +96,12 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveClientCookie', function (string $name, ?string $value = null, bool $raw = false, string $path = '/', ?string $domain = null, bool $strict = true): HigherOrderTapProxy|TestCall {
-        $constraint = match (true) {
-            1 === func_num_args() => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
-            func_get_args() > 1 && true === $strict => new BrowserKitConstraint\BrowserCookieValueSame($name, $value, $raw, $path, $domain),
-            func_get_args() > 1 && false === $strict => new Constraint\BrowserCookieValueContains($name, $value, $raw, $path, $domain),
+        $constraint = match (func_num_args()) {
+            1 => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
+            2, 3, 4, 5, 6 => match ($strict) {
+                true => new BrowserKitConstraint\BrowserCookieValueSame($name, $value, $raw, $path, $domain),
+                false => new Constraint\BrowserCookieValueContains($name, $value, $raw, $path, $domain),
+            },
         };
 
         expect($this->value)
@@ -107,7 +113,7 @@ function extend(Expectation $expect): void
     $expect->extend('toHaveRequestAttribute', function (string $name, string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
         $constraint = match ($strict) {
             true => new ResponseConstraint\RequestAttributeValueSame($name, $value),
-            // false =>
+            false => new Constraint\RequestAttributeContains($name, $value),
         };
 
         expect($this->value)
@@ -119,7 +125,7 @@ function extend(Expectation $expect): void
     $expect->extend('toHaveRequestRoute', function (string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
         $constraint = match ($strict) {
             true => new ResponseConstraint\RequestAttributeValueSame('_route', $value),
-            // false =>
+            false => new Constraint\RequestAttributeContains('_route', $value),
         };
 
         expect($this->value)
