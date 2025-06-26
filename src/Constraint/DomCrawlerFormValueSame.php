@@ -10,9 +10,9 @@ use Symfony\Component\DomCrawler\Crawler;
 final class DomCrawlerFormValueSame extends Constraint
 {
     public function __construct(
-        private string $formSelector,
-        private string $fieldName,
-        private string $value,
+        private readonly string $formSelector,
+        private readonly string $fieldName,
+        private readonly string $value,
     ) {
     }
 

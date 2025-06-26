@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ResponseFormatSame extends Constraint
 {
-    private Request $request;
+    private readonly Request $request;
 
-    public function __construct(private ?string $format)
+    public function __construct(private readonly ?string $format)
     {
         $this->request = new Request();
     }

@@ -47,16 +47,16 @@ function getMessageEvents(): MessageEvents
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('toHaveEmailCount', function (int $count, ?string $transport = null, bool $queued = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toBeEmailQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new MailerConstraint\EmailCount($count, $transport, $queued));
+            ->toMatchConstraint(new MailerConstraint\EmailIsQueued());
 
         return test();
     });
 
-    $expect->extend('toBeEmailQueued', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveEmailCount', function (int $count, ?string $transport = null, bool $queued = false): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new MailerConstraint\EmailIsQueued());
+            ->toMatchConstraint(new MailerConstraint\EmailCount($count, $transport, $queued));
 
         return test();
     });
@@ -92,7 +92,7 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveEmailHeader', function (string $headerName, string $expectedValue = null, bool $strict = true): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveEmailHeader', function (string $headerName, ?string $expectedValue = null, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match (true) {
             1 === func_num_args() => new MimeConstraint\EmailHasHeader($headerName),
             default => new MimeConstraint\EmailHeaderSame($headerName, $expectedValue),

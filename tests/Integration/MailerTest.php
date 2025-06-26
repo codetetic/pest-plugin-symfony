@@ -7,8 +7,8 @@ use function Pest\Symfony\Kernel\getContainer;
 use function Pest\Symfony\Kernel\Mailer\getEvent;
 use function Pest\Symfony\Kernel\Mailer\getEvents;
 use function Pest\Symfony\Kernel\Mailer\getMessage;
-use function Pest\Symfony\Kernel\Mailer\getMessages;
 use function Pest\Symfony\Kernel\Mailer\getMessageEvents;
+use function Pest\Symfony\Kernel\Mailer\getMessages;
 
 it('can get getEvents', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();

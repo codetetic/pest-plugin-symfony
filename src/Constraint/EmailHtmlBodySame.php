@@ -10,11 +10,8 @@ use Symfony\Component\Mime\RawMessage;
 
 final class EmailHtmlBodySame extends Constraint
 {
-    private string $expectedText;
-
-    public function __construct(string $expectedText)
+    public function __construct(private readonly string $expectedText)
     {
-        $this->expectedText = $expectedText;
     }
 
     public function toString(): string

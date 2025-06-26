@@ -9,13 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ResponseHeaderContains extends Constraint
 {
-    private string $headerName;
-    private string $expectedValue;
-
-    public function __construct(string $headerName, string $expectedValue)
+    public function __construct(private readonly string $headerName, private readonly string $expectedValue)
     {
-        $this->headerName = $headerName;
-        $this->expectedValue = $expectedValue;
     }
 
     public function toString(): string
@@ -28,7 +23,7 @@ final class ResponseHeaderContains extends Constraint
      */
     protected function matches($response): bool
     {
-        return str_contains($response->headers->get($this->headerName, null), $this->expectedValue);
+        return str_contains((string) $response->headers->get($this->headerName, null), $this->expectedValue);
     }
 
     /**

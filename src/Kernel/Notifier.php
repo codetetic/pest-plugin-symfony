@@ -45,16 +45,16 @@ function getNotificationEvents(): NotificationEvents
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('toHaveNotificationCount', function (int $count, ?string $transport = null, bool $queued = false): HigherOrderTapProxy|TestCall {
+    $expect->extend('toBeNotificationQueued', function (): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport, $queued));
+            ->toMatchConstraint(new NotifierConstraint\NotificationIsQueued());
 
         return test();
     });
 
-    $expect->extend('toBeNotificationQueued', function (): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveNotificationCount', function (int $count, ?string $transport = null, bool $queued = false): HigherOrderTapProxy|TestCall {
         expect($this->value)
-            ->toMatchConstraint(new NotifierConstraint\NotificationIsQueued());
+            ->toMatchConstraint(new NotifierConstraint\NotificationCount($count, $transport, $queued));
 
         return test();
     });

@@ -12,7 +12,7 @@ use Symfony\Component\DomCrawler\Test\Constraint as DomCrawlerConstraint;
 
 function extend(Expectation $expect): void
 {
-    $expect->extend('toHaveSelector', function (string $selector, string $text = null, bool $strict = true): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveSelector', function (string $selector, ?string $text = null, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match (true) {
             1 === func_num_args() => new DomCrawlerConstraint\CrawlerSelectorExists($selector),
             false === $strict => new DomCrawlerConstraint\CrawlerSelectorTextContains($selector, $text),

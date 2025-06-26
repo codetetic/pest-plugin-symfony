@@ -45,17 +45,17 @@ function extend(Expectation $expect): void
         return test();
     });
 
-    $expect->extend('toHaveRedirect', function (?string $location = null, ?int $code = null, Request $request = null): HigherOrderTapProxy|TestCall {
+    $expect->extend('toHaveRedirect', function (?string $location = null, ?int $code = null, ?Request $request = null): HigherOrderTapProxy|TestCall {
         $constraints = [
             new ResponseConstraint\ResponseIsRedirected(),
         ];
-        if ($location !== null) {
-            if ($request === null) {
+        if (null !== $location) {
+            if (null === $request) {
                 $request = getRequest();
             }
             $constraints[] = new ResponseConstraint\ResponseHeaderLocationSame($request, $location);
         }
-        if ($code !== null) {
+        if (null !== $code) {
             $constraints[] = new ResponseConstraint\ResponseStatusCodeSame($code);
         }
 
@@ -67,9 +67,9 @@ function extend(Expectation $expect): void
 
     $expect->extend('toHaveHeader', function (string $key, ?string $value = null, bool $strict = true): HigherOrderTapProxy|TestCall {
         $constraint = match (true) {
-            func_num_args() === 1  => new ResponseConstraint\ResponseHasHeader($key),
-            func_get_args() > 1 && $strict === true => new ResponseConstraint\ResponseHeaderSame($key, $value),
-            func_get_args() > 1 && $strict === false => new Constraint\ResponseHeaderContains($key, $value),
+            1 === func_num_args() => new ResponseConstraint\ResponseHasHeader($key),
+            func_get_args() > 1 && true === $strict => new ResponseConstraint\ResponseHeaderSame($key, $value),
+            func_get_args() > 1 && false === $strict => new Constraint\ResponseHeaderContains($key, $value),
         };
 
         expect($this->value)
@@ -80,9 +80,9 @@ function extend(Expectation $expect): void
 
     $expect->extend('toHaveCookie', function (string $key, ?string $value = null, string $path = '/', ?string $domain = null, bool $strict = true): HigherOrderTapProxy|TestCall {
         $constraint = match (true) {
-            func_num_args() === 1 => new ResponseConstraint\ResponseHasCookie($key),
-            func_get_args() > 1 && $strict === true => new ResponseConstraint\ResponseCookieValueSame($key, $value, $path, $domain),
-            func_get_args() > 1 && $strict === false => new Constraint\ResponseCookieValueContains($key, $value, $path, $domain),
+            1 === func_num_args() => new ResponseConstraint\ResponseHasCookie($key),
+            func_get_args() > 1 && true === $strict => new ResponseConstraint\ResponseCookieValueSame($key, $value, $path, $domain),
+            func_get_args() > 1 && false === $strict => new Constraint\ResponseCookieValueContains($key, $value, $path, $domain),
         };
 
         expect($this->value)
@@ -91,12 +91,11 @@ function extend(Expectation $expect): void
         return test();
     });
 
-
     $expect->extend('toHaveClientCookie', function (string $name, ?string $value = null, bool $raw = false, string $path = '/', ?string $domain = null, bool $strict = true): HigherOrderTapProxy|TestCall {
         $constraint = match (true) {
-            func_num_args() === 1 => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
-            func_get_args() > 1 && $strict === true => new BrowserKitConstraint\BrowserCookieValueSame($name, $value, $raw, $path, $domain),
-            func_get_args() > 1 && $strict === false => new Constraint\BrowserCookieValueContains($name, $value, $raw, $path, $domain),
+            1 === func_num_args() => new BrowserKitConstraint\BrowserHasCookie($name, $path, $domain),
+            func_get_args() > 1 && true === $strict => new BrowserKitConstraint\BrowserCookieValueSame($name, $value, $raw, $path, $domain),
+            func_get_args() > 1 && false === $strict => new Constraint\BrowserCookieValueContains($name, $value, $raw, $path, $domain),
         };
 
         expect($this->value)
