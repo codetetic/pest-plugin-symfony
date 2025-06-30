@@ -109,7 +109,8 @@ function extend(Expectation $expect): void
 
     $expect->extend('toHaveEmailAddress', function (string $key, string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match ($strict) {
-            default => new MimeConstraint\EmailAddressContains($key, $value), // false
+            true => new MimeConstraint\EmailAddressContains($key, $value),
+            false => new Constraint\EmailAddressesValueContains($key, $value),
         };
 
         expect($this->value)
@@ -120,7 +121,8 @@ function extend(Expectation $expect): void
 
     $expect->extend('toHaveEmailSubject', function (string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match ($strict) {
-            default => new MimeConstraint\EmailSubjectContains($value), // false
+            true => new Constraint\EmailSubjectSame($value),
+            false => new MimeConstraint\EmailSubjectContains($value),
         };
 
         expect($this->value)

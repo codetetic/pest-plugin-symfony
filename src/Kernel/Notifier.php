@@ -11,6 +11,7 @@ use Symfony\Component\Notifier\Event\MessageEvent;
 use Symfony\Component\Notifier\Event\NotificationEvents;
 use Symfony\Component\Notifier\Message\MessageInterface;
 use Symfony\Component\Notifier\Test\Constraint as NotifierConstraint;
+use Pest\Symfony\Constraint;
 
 /**
  * @return MessageEvent[]
@@ -60,8 +61,13 @@ function extend(Expectation $expect): void
     });
 
     $expect->extend('toHaveNotificationSubject', function (string $subject, bool $strict = true): HigherOrderTapProxy|TestCall {
+        $contraint = match ($strict) {
+            true => new Constraint\NotificationSubjectSame($subject),
+            false => new NotifierConstraint\NotificationSubjectContains($subject),
+        };
+
         expect($this->value)
-            ->toMatchConstraint(new NotifierConstraint\NotificationSubjectContains($subject));
+            ->toMatchConstraint($contraint);
 
         return test();
     });
