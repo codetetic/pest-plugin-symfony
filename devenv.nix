@@ -1,7 +1,7 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
-  cachix.enable = false;
+  cachix.pull = [ "codetetic-php" ];
 
   # https://devenv.sh/basics/
 
