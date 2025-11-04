@@ -19,6 +19,11 @@ jobs:
         with:
           name: codetetic-php
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+
+      - uses: ramsey/composer-install@v2
+        with:
+          dependency-versions: locked
+          composer-options: "--prefer-dist"
       
       - name: Run devenv tests
         run: nix run nixpkgs#devenv test
