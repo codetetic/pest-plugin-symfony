@@ -46,7 +46,19 @@
   '';
 
   # https://devenv.sh/git-hooks/
-  # git-hooks.hooks.shellcheck.enable = true;
+  git-hooks.pre-commit.text = ''
+    echo "Running Laravel Pint..."
+    ./vendor/bin/pint --test
+    if [ $? -eq 0 ]; then
+      echo "Code style is clean!"
+      exit 0
+    else
+      echo "Code style issues found. Running Pint to fix..."
+      ./vendor/bin/pint
+      echo "Code style issues fixed. Please review and stage the changes."
+      exit 1
+    fi
+  '';
 
   # See full reference at https://devenv.sh/reference/options/
 }
