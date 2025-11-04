@@ -42,7 +42,7 @@
 
   # https://devenv.sh/tests/
   enterTest = ''
-    ./vendor/bin/pest
+    ./vendor/bin/pest --parallel
   '';
 
   # https://devenv.sh/git-hooks/
