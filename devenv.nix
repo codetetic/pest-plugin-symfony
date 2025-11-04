@@ -46,11 +46,17 @@
   '';
 
   # https://devenv.sh/git-hooks/
-  git-hooks.hooks.pint = {
-    enable = true;
-    name = "Pint Code Style Fixer";
-    entry = "./vendor/bin/pint --test";
-    types = [ "php" ];
+  git-hooks.hooks = {
+    trim-trailing-whitespace = {
+      enable = true;
+    };
+
+    pint = {
+      enable = true;
+      name = "Pint Code Style Fixer";
+      entry = "./vendor/bin/pint --test";
+      types = [ "php" ];
+    };
   };
 
   # See full reference at https://devenv.sh/reference/options/
