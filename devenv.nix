@@ -1,32 +1,24 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 
 {
-  cachix.pull = [ "codetetic-php" ];
+  cachix.enable = lib.mkDefault false;
 
-  # https://devenv.sh/basics/
-
-  # https://devenv.sh/packages/
-  packages = [ ];
-
-  # https://devenv.sh/languages/
   languages.php = {
     enable = true;
-    version = "8.2";
+    package = pkgs.php82.buildEnv {
+      extensions = { all, enabled }: enabled ++ [ all.xdebug ];
+      extraConfig = ''
+        memory_limit=-1
+      '';
+    };
   };
 
-  # https://devenv.sh/processes/
-  # processes.dev.exec = "${lib.getExe pkgs.watchexec} -n -- ls -la";
+  enterShell = '''';
 
-  # https://devenv.sh/services/
-  # services.postgres.enable = true;
-
-  # https://devenv.sh/scripts/
-
-  # https://devenv.sh/basics/
-  enterShell = ''
-  '';
-
-  # https://devenv.sh/tasks/
   tasks = {
     "app:setup" = {
       exec = ''
@@ -40,12 +32,10 @@
     "devenv:enterShell".after = [ "app:setup" ];
   };
 
-  # https://devenv.sh/tests/
   enterTest = ''
     ./vendor/bin/pest --parallel
   '';
 
-  # https://devenv.sh/git-hooks/
   git-hooks.hooks = {
     trim-trailing-whitespace = {
       enable = true;
@@ -58,6 +48,4 @@
       types = [ "php" ];
     };
   };
-
-  # See full reference at https://devenv.sh/reference/options/
 }

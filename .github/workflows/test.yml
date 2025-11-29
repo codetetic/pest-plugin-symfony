@@ -25,5 +25,14 @@ jobs:
           name: codetetic-php
           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
+      - name: Create devenv.local.nix
+        run: |
+          cat > devenv.local.nix << 'EOF'
+          {
+            cachix.enable = true;
+            cachix.pull = [ "codetetic-php" ];
+          }
+          EOF
+
       - name: Run devenv tests
         run: nix run nixpkgs#devenv test
