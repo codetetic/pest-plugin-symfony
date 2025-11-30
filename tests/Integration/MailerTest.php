@@ -83,7 +83,7 @@ it('can assert EmailAttachmentCount', function (): void {
         ->toHaveEmailAttachmentCount(0);
 });
 
-it('can assert EmailTextBodyContains', function (): void {
+it('can assert EmailTextBodySame', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     $this->assertEmailTextBodyContains(getMessage(), 'text');
@@ -91,12 +91,28 @@ it('can assert EmailTextBodyContains', function (): void {
         ->toHaveEmailTextBody('text');
 });
 
-it('can assert EmailHtmlBodyContains', function (): void {
+it('can assert EmailTextBodyContains', function (): void {
+    getContainer()->get(App\Service\ExampleService::class)->email();
+
+    $this->assertEmailTextBodyContains(getMessage(), 'text');
+    expect(getMessage())
+        ->toHaveEmailTextBody('te', strict: false);
+});
+
+it('can assert EmailHtmlBodySame', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     $this->assertEmailHtmlBodyContains(getMessage(), '<p>html</p>');
     expect(getMessage())
         ->toHaveEmailHtmlBody('<p>html</p>');
+});
+
+it('can assert EmailHtmlBodyContains', function (): void {
+    getContainer()->get(App\Service\ExampleService::class)->email();
+
+    $this->assertEmailHtmlBodyContains(getMessage(), '<p>html</p>');
+    expect(getMessage())
+        ->toHaveEmailHtmlBody('<p>html', strict: false);
 });
 
 it('can assert EmailHasHeader', function (): void {
@@ -115,6 +131,14 @@ it('can assert EmailHeaderSame', function (): void {
         ->toHaveEmailHeader('From', 'from@example.com');
 });
 
+it('can assert EmailHeaderContains', function (): void {
+    getContainer()->get(App\Service\ExampleService::class)->email();
+
+    $this->assertEmailHeaderSame(getMessage(), 'From', 'from@example.com');
+    expect(getMessage())
+        ->toHaveEmailHeader('From', 'example.com', strict: false);
+});
+
 it('can assert EmailAddressSame', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
@@ -131,10 +155,18 @@ it('can assert EmailAddressContains', function (): void {
         ->toHaveEmailAddress('To', 'example.com', strict: false);
 });
 
-it('can assert EmailSubjectContains', function (): void {
+it('can assert EmailSubjectSame', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->email();
 
     $this->assertEmailSubjectContains(getMessage(), 'subject');
     expect(getMessage())
         ->toHaveEmailSubject('subject');
+});
+
+it('can assert EmailSubjectContains', function (): void {
+    getContainer()->get(App\Service\ExampleService::class)->email();
+
+    $this->assertEmailSubjectContains(getMessage(), 'subject');
+    expect(getMessage())
+        ->toHaveEmailSubject('subject', strict: false);
 });
