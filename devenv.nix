@@ -33,7 +33,8 @@
   };
 
   enterTest = ''
-    ./vendor/bin/pest --parallel
+    export XDEBUG_MODE=coverage
+    ./vendor/bin/pest --parallel --coverage --coverage-html=build/coverage
   '';
 
   git-hooks.hooks = {

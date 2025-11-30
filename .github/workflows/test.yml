@@ -36,3 +36,9 @@ jobs:
 
       - name: Run devenv tests
         run: nix run nixpkgs#devenv test
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ./build/coverage
