@@ -37,18 +37,18 @@ it('can assert SelectorCount', function (): void {
     expect(getCrawler())->toHaveSelectorCount('title', 1);
 });
 
-it('can assert AnySelectorTextContains', function (): void {
-    createClient()->request('GET', '/html');
-
-    $this->assertAnySelectorTextContains('title', 'Welcome!');
-    expect(getCrawler())->toHaveAnySelector('title', 'Welcome!');
-});
-
 it('can assert AnySelectorTextSame', function (): void {
     createClient()->request('GET', '/html');
 
     $this->assertAnySelectorTextSame('title', 'Welcome!');
     expect(getCrawler())->toHaveAnySelector('title', 'Welcome!');
+});
+
+it('can assert AnySelectorTextContains', function (): void {
+    createClient()->request('GET', '/html');
+
+    $this->assertAnySelectorTextContains('title', 'Welcome!');
+    expect(getCrawler())->toHaveAnySelector('title', 'Welcome!', strict: false);
 });
 
 it('can assert PageTitleContains', function (): void {
