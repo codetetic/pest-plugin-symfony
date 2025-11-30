@@ -2,7 +2,7 @@
 /phpunit.xml
 /.phpunit.cache/
 /--cache-result/
-/build/
+/coverage.xml
 
 ###> symfony/framework-bundle ###
 /resources/symfony/.env.local
