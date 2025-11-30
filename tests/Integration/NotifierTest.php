@@ -71,12 +71,19 @@ it('can assert NotificationIsQueued', function (): void {
         ->toBeNotificationQueued();
 });
 
+it('can assert NotificationSubjectSame', function (): void {
+    getContainer()->get(App\Service\ExampleService::class)->sms();
+
+    expect(getMessage())
+        ->toHaveNotificationSubject('subject');
+});
+
 it('can assert NotificationSubjectContains', function (): void {
     getContainer()->get(App\Service\ExampleService::class)->sms();
 
-    $this->assertNotificationSubjectContains(getMessage(), 'subject');
+    $this->assertNotificationSubjectContains(getMessage(), 'sub');
     expect(getMessage())
-        ->toHaveNotificationSubject('subject');
+        ->toHaveNotificationSubject('sub', strict: false);
 });
 
 it('can assert NotificationTransportIsEqual', function (): void {
