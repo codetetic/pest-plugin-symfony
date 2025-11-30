@@ -7,6 +7,8 @@ namespace Pest\Symfony\Web\DomCrawler;
 use Pest\Expectation;
 use Pest\PendingCalls\TestCall;
 use Pest\Support\HigherOrderTapProxy;
+use Pest\Symfony\Constraint\CrawlerSelectorAttributeValueContains;
+use Pest\Symfony\Constraint\DomCrawlerFormValueContains;
 use Pest\Symfony\Constraint\DomCrawlerFormValueSame;
 use Symfony\Component\DomCrawler\Test\Constraint as DomCrawlerConstraint;
 
@@ -61,6 +63,7 @@ function extend(Expectation $expect): void
     $expect->extend('toHaveInput', function (string $selector, string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match ($strict) {
             true => new DomCrawlerConstraint\CrawlerSelectorAttributeValueSame("input[name=\"$selector\"]", 'value', $value),
+            false => new CrawlerSelectorAttributeValueContains("input[name=\"$selector\"]", 'value', $value),
         };
 
         expect($this->value)
@@ -79,6 +82,7 @@ function extend(Expectation $expect): void
     $expect->extend('toHaveFormInput', function (string $selector, string $key, string $value, bool $strict = true): HigherOrderTapProxy|TestCall {
         $contraint = match ($strict) {
             true => new DomCrawlerFormValueSame($selector, $key, $value),
+            false => new DomCrawlerFormValueContains($selector, $key, $value),
         };
 
         expect($this->value)
