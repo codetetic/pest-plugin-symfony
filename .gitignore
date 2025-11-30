@@ -3,6 +3,7 @@
 /.phpunit.cache/
 /--cache-result/
 /coverage.xml
+/junit.xml
 
 ###> symfony/framework-bundle ###
 /resources/symfony/.env.local

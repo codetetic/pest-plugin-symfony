@@ -34,7 +34,7 @@
 
   enterTest = ''
     export XDEBUG_MODE=coverage
-    ./vendor/bin/pest --parallel --coverage --coverage-html=build/coverage
+    ./vendor/bin/pest --parallel --coverage --coverage-clover coverage.xml --log-junit junit.xml
   '';
 
   git-hooks.hooks = {
