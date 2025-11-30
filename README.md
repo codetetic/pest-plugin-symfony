@@ -4,7 +4,7 @@ This project is a Pest Symfony Plugin that enhances testing capabilities for Sym
 
 ## Prerequisites
 
-- PHP 8.1 or higher
+- PHP 8.2 or higher
 - PestPHP 2.36 or higher
 - Symfony 6.4 or higher
 - Composer
