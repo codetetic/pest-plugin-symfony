@@ -60,6 +60,11 @@ it('can assert ResponseHeaderSame', function (): void {
 
     $this->assertResponseHeaderSame('Content-Type', 'application/json');
     expect(getResponse())->toHaveHeader('Content-Type', 'application/json');
+});
+
+it('can assert ResponseHeaderContains', function (): void {
+    createClient()->request('GET', '/example');
+
     expect(getResponse())->toHaveHeader('Content-Type', 'application/', strict: false);
 });
 
@@ -75,6 +80,11 @@ it('can assert ResponseCookieValueSame', function (): void {
 
     $this->assertResponseCookieValueSame('name', 'value');
     expect(getResponse())->toHaveCookie('name', 'value');
+});
+
+it('can assert ResponseCookieContains', function (): void {
+    createClient()->request('GET', '/cookie');
+
     expect(getResponse())->toHaveCookie('name', 'val', strict: false);
 });
 
@@ -90,6 +100,11 @@ it('can assert BrowserCookieValueSame', function (): void {
 
     $this->assertBrowserCookieValueSame('name', 'value');
     expect(getClient())->toHaveClientCookie('name', 'value');
+});
+
+it('can assert BrowserCookieContains', function (): void {
+    createClient()->request('GET', '/cookie');
+
     expect(getClient())->toHaveClientCookie('name', 'val', strict: false);
 });
 
@@ -100,9 +115,21 @@ it('can assert RequestAttributeValueSame', function (): void {
     expect(getRequest())->toHaveRequestAttribute('_route', 'app_example');
 });
 
+it('can assert RequestAttributeValueContains', function (): void {
+    createClient()->request('GET', '/example');
+
+    expect(getRequest())->toHaveRequestAttribute('_route', 'example', strict: false);
+});
+
 it('can assert RouteSame', function (): void {
     createClient()->request('GET', '/example');
 
     $this->assertRouteSame('app_example');
     expect(getRequest())->toHaveRequestRoute('app_example');
+});
+
+it('can assert RouteContains', function (): void {
+    createClient()->request('GET', '/example');
+
+    expect(getRequest())->toHaveRequestRoute('example', strict: false);
 });
