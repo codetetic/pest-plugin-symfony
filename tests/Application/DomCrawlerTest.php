@@ -75,7 +75,6 @@ it('can assert InputValueSame', function (): void {
 it('can assert InputValueContains', function (): void {
     createClient()->request('GET', '/html');
 
-    $this->assertInputValueSame('text', 'value');
     expect(getCrawler())->toHaveInput('text', 'val', strict: false);
 });
 
@@ -93,9 +92,8 @@ it('can assert FormValue', function (): void {
     expect(getCrawler())->toHaveFormInput('form', 'text', 'value');
 });
 
-it('can assert FormValue contains', function (): void {
+it('can assert FormValueContains', function (): void {
     createClient()->request('GET', '/html');
 
-    $this->assertFormValue('form', 'text', 'value');
     expect(getCrawler())->toHaveFormInput('form', 'text', 'val', strict: false);
 });
