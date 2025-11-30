@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e85836f299940633847cff4f2e4ce5a5",
+    "content-hash": "de9ea8d362a523f0c8dd68df7299d29d",
     "packages": [
         {
             "name": "brianium/paratest",
@@ -8842,24 +8842,28 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v7.4.0",
+            "version": "v6.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "059b051b38f2138ef104dd848fa48f0cbbb7d78b"
+                "reference": "406aa80401bf960e7a173a3ccf268ae82b6bc93f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/059b051b38f2138ef104dd848fa48f0cbbb7d78b",
-                "reference": "059b051b38f2138ef104dd848fa48f0cbbb7d78b",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/406aa80401bf960e7a173a3ccf268ae82b6bc93f",
+                "reference": "406aa80401bf960e7a173a3ccf268ae82b6bc93f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1.0"
+                "php": ">=7.1.3"
+            },
+            "conflict": {
+                "phpunit/phpunit": "<7.5|9.1.2"
             },
             "require-dev": {
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/error-handler": "^6.4.3|^7.0.3|^8.0"
+                "symfony/deprecation-contracts": "^2.5|^3.0",
+                "symfony/error-handler": "^5.4|^6.0|^7.0",
+                "symfony/polyfill-php81": "^1.27"
             },
             "bin": [
                 "bin/simple-phpunit"
@@ -8903,7 +8907,7 @@
                 "testing"
             ],
             "support": {
-                "source": "https://github.com/symfony/phpunit-bridge/tree/v7.4.0"
+                "source": "https://github.com/symfony/phpunit-bridge/tree/v6.4.26"
             },
             "funding": [
                 {
@@ -8923,7 +8927,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-10-28T22:44:23+00:00"
+            "time": "2025-09-12T08:37:02+00:00"
         },
         {
             "name": "symfony/polyfill-intl-icu",

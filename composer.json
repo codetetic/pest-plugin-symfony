@@ -57,7 +57,7 @@
         "symfony/notifier": "6.4.*",
         "symfony/options-resolver": "6.4.*",
         "symfony/password-hasher": "6.4.*",
-        "symfony/phpunit-bridge": "^7.2",
+        "symfony/phpunit-bridge": "6.4.*",
         "symfony/process": "6.4.*",
         "symfony/property-access": "6.4.*",
         "symfony/property-info": "6.4.*",
